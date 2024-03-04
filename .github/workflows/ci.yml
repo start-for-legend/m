@@ -24,3 +24,12 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew clean build -x test
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4-beta
+      with:
+        flags: smart-tests
+        verbose: true
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
