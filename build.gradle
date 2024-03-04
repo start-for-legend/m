@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.3'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.0.5'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
 group = 'com.minsta'
@@ -15,9 +15,48 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //REST
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
+
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version : '3.0.4'
+
+    //lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+    //JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
+    //DB
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
