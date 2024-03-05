@@ -57,6 +57,9 @@ dependencies {
     //DB
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    //CoolSms
+    implementation group: 'net.nurigo', name: 'javaSDK', version: '2.2'
 }
 
 tasks.named('test') {
