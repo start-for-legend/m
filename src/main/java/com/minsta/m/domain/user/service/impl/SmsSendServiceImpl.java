@@ -25,11 +25,11 @@ public class SmsSendServiceImpl implements SmsSendService {
     private final SmsAuthRepository smsAuthRepository;
 
     @Value("${coolsms.api}")
-    private final String API_KEY;
+    private String API_KEY;
     @Value("${coolsms.secret}")
-    private final String API_SECRET;
+    private String API_SECRET;
     @Value("${coolsms.balshin}")
-    private final String BALSHIN;
+    private String BALSHIN;
 
     @Override
     public void execute(SmsSendRequest smsSendRequest) {
@@ -41,7 +41,7 @@ public class SmsSendServiceImpl implements SmsSendService {
         params.put("to", smsSendRequest.getPhone());
         params.put("from", BALSHIN);
         params.put("type", "SMS");
-        params.put("text", "첼구 더보기리그 1위 챔스 10년간 질출 실패 : " + key);
+        params.put("text", "가입 암호 : " + key);
 
         try {
             JSONObject obj = message.send(params);
