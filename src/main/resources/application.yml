@@ -27,6 +27,11 @@ spring:
       host: ${R_HOST}
       port: ${R_PORT}
 
+coolsms:
+  balshin: ${PHONE}
+  api: ${PHONE_API}
+  secret: ${PHONE_SECRET}
+
 jwt:
   accessSecret: ${ACCESS_SECRET}
   refreshSecret: ${REFRESH_SECRET}
