@@ -47,6 +47,8 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/auth").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/auth").authenticated()
                 .anyRequest().denyAll();
 
         http
