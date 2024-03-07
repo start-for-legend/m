@@ -93,10 +93,23 @@ tasks.named('test') {
 
 jacocoTestReport {
     reports {
+        html.required.set(true)
         xml.required.set(true)
         csv.required.set(false)
-        html.required.set(true)
     }
 }
 
-check.dependsOn jacocoTestReport
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            element = "CLASS"
+
+            limit {
+                counter = "BRANCH"
+                value = "COVEREDRATIO"
+                minimum = "0.50".toBigDecimal()
+            }
+        }
+    }
+}
