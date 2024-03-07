@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
         User user = userRepository.findByPhone(loginRequest.getPhone())
                 .orElseThrow(UserNotFoundException::new);
 
-        if (!passwordEncoder.matches(user.getPassword(), loginRequest.getPassword())) {
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new InvalidPasswordException();
         }
 
