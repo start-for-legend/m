@@ -1,5 +1,6 @@
 package com.minsta.m.global.filter;
 
+import com.minsta.m.domain.auth.repository.BlackListRepository;
 import com.minsta.m.global.security.exception.TokenExpiredException;
 import com.minsta.m.global.security.jwt.TokenParser;
 import jakarta.servlet.FilterChain;
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenParser tokenParser;
+    private final BlackListRepository blackListRepository;
 
     @Override
     protected void doFilterInternal(
@@ -30,6 +32,10 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = tokenParser.resolveToken(request);
 
         if (token != null && !token.isBlank()) {
+            if (blackListRepository.existsByAccessToken(token)) {
+                throw new TokenExpiredException();
+            }
+
             Authentication authentication = tokenParser.authentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
