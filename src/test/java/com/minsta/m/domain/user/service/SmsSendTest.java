@@ -5,7 +5,7 @@ import com.minsta.m.domain.user.entity.SmsAuthentication;
 import com.minsta.m.domain.user.repository.SmsAuthRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;

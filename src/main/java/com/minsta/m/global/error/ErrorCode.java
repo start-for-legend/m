@@ -7,10 +7,16 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    //TOKEN
+    TOKEN_IS_EXPIRED("토큰이 만료 되었습니다.", 401),
+    TOKEN_NOT_VALID("토큰이 유효 하지 않습니다.", 401),
+
     //USER
     NOT_AUTHENTICATION_PHONE("Not Authenticated phone number, retrying after authenticate", 403),
     AUTH_KEY_IS_NOT_MATCHED("Auth Key is not matched", 403),
     USER_PHONE_EXIST("Duplicated phone value", 409),
+    USER_NOT_FOUND("User not found", 404),
+    INVALID_PASSWORD("Password mismatch", 403),
     USER_NICK_NAME_EXIST("Duplicated nickName value", 409),
 
     //SERVER

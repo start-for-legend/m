@@ -25,11 +25,10 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean build -x test
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4-beta
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4.0.1
       with:
-        flags: smart-tests
-        verbose: true
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: start-for-legend/m
+        file: ./build/reports/jacoco/test/jacocoTestReport.xml
 
