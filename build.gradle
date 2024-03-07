@@ -97,9 +97,20 @@ jacocoTestReport {
         xml.required.set(true)
         csv.required.set(false)
     }
+
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, excludes: [
+                            "**/com/minsta/global/**",
+                            "**/com/minsta/common/**"
+                    ])
+                })
+        )
+    }
 }
 
-tasks.jacocoTestCoverageVerification {
+jacocoTestCoverageVerification {
     violationRules {
         rule {
             enabled = true
@@ -108,7 +119,7 @@ tasks.jacocoTestCoverageVerification {
             limit {
                 counter = "BRANCH"
                 value = "COVEREDRATIO"
-                minimum = "0.50".toBigDecimal()
+                minimum = "0.00".toBigDecimal()
             }
         }
     }

@@ -19,5 +19,6 @@ comment:
   behavior: default
   require_changes: false
   branches:
-    - push
-    - main
+    - 'push'
+    - 'main'
+    - '4-login'
