@@ -13,6 +13,6 @@ public class LoginRequest {
     @NotNull(message = "phone is necessary value")
     private String phone;
 
-    @NotNull(message = "phone is necessary value")
+    @NotNull(message = "password is necessary value")
     private String password;
 }
