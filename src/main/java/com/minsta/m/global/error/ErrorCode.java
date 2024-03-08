@@ -20,7 +20,12 @@ public enum ErrorCode {
     USER_NICK_NAME_EXIST("Duplicated nickName value", 409),
 
     //SERVER
-    SERVER_ERROR("SERVER ERROR", 500);
+    SERVER_ERROR("SERVER ERROR", 500),
+
+    //AWS
+    FILE_UPLOAD_FAIL("파일 업로드에 실패했습니다.", 500),
+    NOT_ALLOWED_FILE("허용되지 않은 파일 형식입니다.", 400),
+    INVALID_FORMAT_FILE("잘못된 형식의 파일입니다.", 400);
 
 
     private final String message;
