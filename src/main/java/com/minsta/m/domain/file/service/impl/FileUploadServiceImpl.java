@@ -30,7 +30,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     private final AmazonS3 amazonS3;
 
-    private static final List<String> ALLOWED_MIME_TYPES = Arrays.asList("image/jpg", "image/png", "image/gif");
+    private static final List<String> ALLOWED_MIME_TYPES = Arrays.asList("image/jpg", "image/png", "image/gif", "audio/mp4");
 
     @Override
     public FileUploadResponse execute(MultipartFile file) {
