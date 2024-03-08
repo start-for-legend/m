@@ -17,7 +17,7 @@ public class FileController {
 
     @PostMapping()
     public ResponseEntity<FileUploadResponse> fileUpload(
-            @RequestPart(value = "file", required = false) MultipartFile file
+            @RequestPart(value = "file", required = true) MultipartFile file
     ) {
         var res = fileUploadService.execute(file);
         return new ResponseEntity<>(res, HttpStatus.CREATED);
