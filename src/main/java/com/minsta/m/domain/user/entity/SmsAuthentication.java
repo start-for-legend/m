@@ -21,7 +21,7 @@ public class SmsAuthentication {
     @Column(name = "authentication_key", nullable = false)
     private int key;
 
-    @Column(name = "auth_check", nullable = false)
+    @Column(name = "auth_check", nullable = false, columnDefinition="tinyint(1) default 0")
     private boolean check;
 
     public void setCheck(boolean check) {
