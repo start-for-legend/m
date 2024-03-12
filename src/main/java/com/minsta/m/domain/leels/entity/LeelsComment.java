@@ -30,4 +30,8 @@ public class LeelsComment extends BaseEntity {
 
     @Column(nullable = false, length = 100)
     private String comment;
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
