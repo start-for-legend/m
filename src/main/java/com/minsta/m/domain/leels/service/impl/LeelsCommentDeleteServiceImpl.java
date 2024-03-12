@@ -11,7 +11,9 @@ import com.minsta.m.global.util.LeelsCommentUtil;
 import com.minsta.m.global.util.LeelsUtil;
 import com.minsta.m.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @ServiceWithTransactional
 public class LeelsCommentDeleteServiceImpl implements LeelsCommentDeleteService {
@@ -31,6 +33,9 @@ public class LeelsCommentDeleteServiceImpl implements LeelsCommentDeleteService 
             throw new CommentDeletePermissionDeniedException();
         }
 
+        log.info("leelsComment {}", leelsComment.getUser().getName());
+
+        deleteAllLike(leelsCommentId);
         leelsCommentRepository.delete(leelsComment);
     }
 
