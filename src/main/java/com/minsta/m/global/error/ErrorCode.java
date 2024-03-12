@@ -28,7 +28,10 @@ public enum ErrorCode {
     INVALID_FORMAT_FILE("잘못된 형식의 파일입니다.", 400),
 
     //Leels
-    LEELS_NOT_FOUND("릴스가 없습니다", 404);
+    LEELS_NOT_FOUND("릴스가 없습니다", 404),
+
+    //Leels Comment
+    LEELS_COMMENT_NOT_FOUND("릴스 댓글이 없습니다.", 404);
 
 
     private final String message;
