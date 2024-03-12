@@ -18,14 +18,17 @@ public class LeelsCommentLike {
     private LeelsCommentEmbedded leelsCommentEmbedded;
 
     @ManyToOne
-    @MapsId("user_id")
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @MapsId("leels_id")
+    @MapsId("leelsId")
+    @JoinColumn(name = "leels_id")
     private Leels leels;
 
     @ManyToOne
-    @MapsId("leels_comment_id")
+    @MapsId("leelsCommentId")
+    @JoinColumn(name = "leels_comment_id")
     private LeelsComment leelsComment;
 }
