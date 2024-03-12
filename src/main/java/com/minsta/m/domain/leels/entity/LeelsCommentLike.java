@@ -28,14 +28,4 @@ public class LeelsCommentLike {
     @ManyToOne
     @MapsId("leels_comment_id")
     private LeelsComment leelsComment;
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
 }
