@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/auth").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/auth").authenticated()
-                .requestMatchers(HttpMethod.POST, "/leels/**").authenticated()
+                .requestMatchers("/leels/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/file").authenticated()
                 .anyRequest().denyAll();
 
