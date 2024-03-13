@@ -2,11 +2,13 @@ package com.minsta.m.domain.leels.service.impl;
 
 import com.minsta.m.domain.leels.entity.LeelsComment;
 import com.minsta.m.domain.leels.exception.CommentDeletePermissionDeniedException;
+import com.minsta.m.domain.leels.exception.LeelsCommentNotFoundException;
 import com.minsta.m.domain.leels.repository.LeelsCommentLikeRepository;
 import com.minsta.m.domain.leels.repository.LeelsCommentRepository;
 import com.minsta.m.domain.leels.service.LeelsCommentDeleteService;
 import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
+import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.util.LeelsCommentUtil;
 import com.minsta.m.global.util.LeelsUtil;
 import com.minsta.m.global.util.UserUtil;
@@ -29,11 +31,13 @@ public class LeelsCommentDeleteServiceImpl implements LeelsCommentDeleteService 
         User user = userUtil.getUser();
 
         LeelsComment leelsComment = leelsCommentRepository.findByLeelsCommentIdAndLeels(leelsCommentId, leelsUtil.getLeels(leelsId));
+        if (leelsComment == null) {
+            throw new LeelsCommentNotFoundException();
+        }
+
         if (!leelsComment.getUser().equals(user)) {
             throw new CommentDeletePermissionDeniedException();
         }
-
-        log.info("leelsComment {}", leelsComment.getUser().getName());
 
         deleteAllLike(leelsCommentId);
         leelsCommentRepository.delete(leelsComment);
