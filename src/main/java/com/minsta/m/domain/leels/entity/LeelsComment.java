@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -30,6 +33,10 @@ public class LeelsComment extends BaseEntity {
 
     @Column(nullable = false, length = 100)
     private String comment;
+
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "leelsComment")
+    List<LeelsCommentReply> leelsCommentReplies = new ArrayList<>();
 
     public void setComment(String comment) {
         this.comment = comment;
