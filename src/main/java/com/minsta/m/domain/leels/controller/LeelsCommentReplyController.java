@@ -1,8 +1,7 @@
 package com.minsta.m.domain.leels.controller;
 
 import com.minsta.m.domain.leels.controller.data.request.CreateLeelsCommentRequest;
-import com.minsta.m.domain.leels.service.CreateLeelsCommentReplyService;
-import com.minsta.m.domain.leels.service.DeleteLeelsCommentReplyService;
+import com.minsta.m.domain.leels.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,9 @@ public class LeelsCommentReplyController {
 
     private final CreateLeelsCommentReplyService createLeelsCommentReplyService;
     private final DeleteLeelsCommentReplyService deleteLeelsCommentReplyService;
+    private final UpdateLeelsCommentReplyService updateLeelsCommentReplyService;
+    private final LeelsCommentReplyLikeService leelsCommentReplyLikeService;
+    private final LeelsCommentReplyLikeCancelService leelsCommentReplyLikeCancelService;
 
     @PostMapping("/reply")
     public ResponseEntity<HttpStatus> createCommentReply(
@@ -37,14 +39,34 @@ public class LeelsCommentReplyController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping("/{leelCommentReplyId}")
+    @PatchMapping("/{leelsCommentReplyId}")
     public ResponseEntity<HttpStatus> updateCommentReply(
             @PathVariable Long leelsId,
             @PathVariable Long leelsCommentId,
             @PathVariable Long leelsCommentReplyId,
             @RequestBody @Valid CreateLeelsCommentRequest updateRequest
     ) {
+        updateLeelsCommentReplyService.execute(leelsId, leelsCommentId, leelsCommentReplyId, updateRequest);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
+    @PostMapping("/{leelsCommentReplyId}")
+    public ResponseEntity<HttpStatus> likeCommentReply(
+            @PathVariable Long leelsId,
+            @PathVariable Long leelsCommentId,
+            @PathVariable Long leelsCommentReplyId
+    ) {
+        leelsCommentReplyLikeService.execute(leelsId, leelsCommentId, leelsCommentReplyId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{leelsCommentReplyId}")
+    public ResponseEntity<HttpStatus> likeCommentReplyCancel(
+            @PathVariable Long leelsId,
+            @PathVariable Long leelsCommentId,
+            @PathVariable Long leelsCommentReplyId
+    ) {
+        leelsCommentReplyLikeCancelService.execute(leelsId, leelsCommentId, leelsCommentReplyId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
