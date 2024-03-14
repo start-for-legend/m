@@ -23,7 +23,7 @@ public class LeelsComment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long leelsCommentId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "leels_id")
     private Leels leels;
 

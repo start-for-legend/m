@@ -8,6 +8,8 @@ import com.minsta.m.global.annotation.ServiceWithTransactional;
 import com.minsta.m.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+
 @RequiredArgsConstructor
 @ServiceWithTransactional
 public class CreateLeelsServiceImpl implements CreateLeelsService {
@@ -23,6 +25,7 @@ public class CreateLeelsServiceImpl implements CreateLeelsService {
                 .hashtags(request.getHashtags())
                 .leelsUrl(request.getUrl())
                 .user(userUtil.getUser())
+                .leelsComments(new ArrayList<>())
                 .build();
 
         leelsRepository.save(leels);

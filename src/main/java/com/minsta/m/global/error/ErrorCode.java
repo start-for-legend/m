@@ -29,6 +29,7 @@ public enum ErrorCode {
 
     //Leels
     LEELS_NOT_FOUND("릴스가 없습니다", 404),
+    DELETE_LEELS_DENIED("작성자만 삭제할 수 있습니다", 403),
 
     //Leels Comment
     LEELS_COMMENT_NOT_FOUND("릴스 댓글이 없습니다.", 404),
@@ -38,7 +39,8 @@ public enum ErrorCode {
     CANCEL_PERMISSION_DENIED("좋아요 취소는 본인만 가능합니다", 403),
 
     //Client
-    BAD_REQUEST("잘못된 요청",400);
+    BAD_REQUEST("잘못된 요청",400),
+    DENIED_TOW_TOUCH("좋아요 누르기나 취소는 2번 터지할 수 없습니다", 403);
 
     private final String message;
     private final int status;
