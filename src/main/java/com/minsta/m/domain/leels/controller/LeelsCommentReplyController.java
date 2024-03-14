@@ -60,7 +60,7 @@ public class LeelsCommentReplyController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{leelsCommentReplyId}")
+    @DeleteMapping("/{leelsCommentReplyId}/like")
     public ResponseEntity<HttpStatus> likeCommentReplyCancel(
             @PathVariable Long leelsId,
             @PathVariable Long leelsCommentId,
