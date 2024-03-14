@@ -29,6 +29,7 @@ public enum ErrorCode {
 
     //Leels
     LEELS_NOT_FOUND("릴스가 없습니다", 404),
+    DELETE_LEELS_DENIED("작성자만 삭제할 수 있습니다", 403),
 
     //Leels Comment
     LEELS_COMMENT_NOT_FOUND("릴스 댓글이 없습니다.", 404),
