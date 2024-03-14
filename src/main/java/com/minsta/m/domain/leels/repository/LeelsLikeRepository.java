@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface LeelsLikeRepository extends JpaRepository<LeelsLike, LeelsLikeEmbedded> {
 
     boolean existsByLikeEmbedded(LeelsLikeEmbedded likeEmbedded);
+
+    LeelsLike findByLikeEmbedded(LeelsLikeEmbedded likeEmbedded);
 }
