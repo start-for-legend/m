@@ -31,7 +31,7 @@ public class LeelsCommentReply extends BaseEntity {
     @JoinColumn(name = "leels_id")
     private Leels leels;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "leels_comment_id")
     private LeelsComment leelsComment;
 

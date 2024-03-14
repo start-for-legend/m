@@ -40,4 +40,8 @@ public class Leels extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder.Default
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "leels")
+    List<LeelsComment> leelsComments = new ArrayList<>();
 }
