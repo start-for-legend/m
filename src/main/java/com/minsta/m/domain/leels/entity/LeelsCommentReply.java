@@ -8,35 +8,35 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeelsComment extends BaseEntity {
+public class LeelsCommentReply extends BaseEntity {
 
     @Id
-    @Column(name = "leels_comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long leelsCommentId;
+    @Column(name = "leels_comment_reply_id")
+    private Long leelsCommentReplyId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    private User replyUser;
 
     @ManyToOne
     @JoinColumn(name = "leels_id")
     private Leels leels;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "leels_comment_id")
+    private LeelsComment leelsComment;
 
     @Column(nullable = false, length = 100)
     private String comment;
-
-    @Builder.Default
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "leelsComment")
-    List<LeelsCommentReply> leelsCommentReplies = new ArrayList<>();
 
     public void setComment(String comment) {
         this.comment = comment;
