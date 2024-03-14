@@ -41,7 +41,7 @@ public class LeelsController {
 
     @PatchMapping("/{leelsId}")
     public ResponseEntity<HttpStatus> cancel(@PathVariable Long leelsId) {
-        createLeelsLikeService.execute(leelsId);
+        cancelLeelsLikeService.execute(leelsId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
