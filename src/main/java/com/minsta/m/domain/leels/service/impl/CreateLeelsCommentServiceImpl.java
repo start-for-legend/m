@@ -9,6 +9,8 @@ import com.minsta.m.global.util.LeelsUtil;
 import com.minsta.m.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+
 @RequiredArgsConstructor
 @ServiceWithTransactional
 public class CreateLeelsCommentServiceImpl implements CreateLeelsCommentService {
@@ -24,6 +26,7 @@ public class CreateLeelsCommentServiceImpl implements CreateLeelsCommentService 
                 .leels(leelsUtil.getLeels(leelsId))
                 .user(userUtil.getUser())
                 .comment(createLeelsCommentRequest.getComment())
+                .leelsCommentReplies(new ArrayList<>())
                 .build();
 
         leelsCommentRepository.save(leelsComment);
