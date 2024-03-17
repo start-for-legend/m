@@ -76,7 +76,7 @@ public class GetReelsRecommendedServiceImpl implements GetReelsRecommnededServic
                         .heartCount(getHeartCount(Type.LEELS, leels.getLeelsId()))
                         .build();
 
-                leelsResponses.add(Math.toIntExact(leels.getLeelsId()), leelsResponse);
+                leelsResponses.add(leelsResponse);
             }
 
         } else {
