@@ -20,7 +20,7 @@ public class LeelsController {
     private final LeelsDeleteService leelsDeleteService;
     private final CreateLeelsLikeService createLeelsLikeService;
     private final CancelLeelsLikeService cancelLeelsLikeService;
-    private final GetReelsRecommnededService getReelsRecommnededService;
+    private final GetReelsRecommendedService getReelsRecommnededService;
 
     @PostMapping
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid CreateLeelsRequest createLeelsRequest) {

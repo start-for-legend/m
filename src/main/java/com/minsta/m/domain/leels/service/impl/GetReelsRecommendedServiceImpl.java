@@ -8,7 +8,7 @@ import com.minsta.m.domain.leels.entity.LeelsComment;
 import com.minsta.m.domain.leels.entity.LeelsCommentReply;
 import com.minsta.m.domain.leels.entity.LeelsLike;
 import com.minsta.m.domain.leels.repository.*;
-import com.minsta.m.domain.leels.service.GetReelsRecommnededService;
+import com.minsta.m.domain.leels.service.GetReelsRecommendedService;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
@@ -27,7 +27,7 @@ import static com.minsta.m.domain.leels.entity.QLeelsLike.leelsLike;
 
 @ReadOnlyService
 @RequiredArgsConstructor
-public class GetReelsRecommendedServiceImpl implements GetReelsRecommnededService {
+public class GetReelsRecommendedServiceImpl implements GetReelsRecommendedService {
 
     enum Type {
         LEELS,
