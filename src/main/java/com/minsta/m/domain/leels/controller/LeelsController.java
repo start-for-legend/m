@@ -1,15 +1,15 @@
 package com.minsta.m.domain.leels.controller;
 
 import com.minsta.m.domain.leels.controller.data.request.CreateLeelsRequest;
-import com.minsta.m.domain.leels.service.CancelLeelsLikeService;
-import com.minsta.m.domain.leels.service.CreateLeelsLikeService;
-import com.minsta.m.domain.leels.service.CreateLeelsService;
-import com.minsta.m.domain.leels.service.LeelsDeleteService;
+import com.minsta.m.domain.leels.controller.data.response.LeelsResponse;
+import com.minsta.m.domain.leels.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/leels")
@@ -20,6 +20,7 @@ public class LeelsController {
     private final LeelsDeleteService leelsDeleteService;
     private final CreateLeelsLikeService createLeelsLikeService;
     private final CancelLeelsLikeService cancelLeelsLikeService;
+    private final GetReelsRecommendedService getReelsRecommnededService;
 
     @PostMapping
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid CreateLeelsRequest createLeelsRequest) {
@@ -33,15 +34,21 @@ public class LeelsController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/{leelsId}")
+    @PostMapping("/{leelsId}/like")
     public ResponseEntity<HttpStatus> like(@PathVariable Long leelsId) {
         createLeelsLikeService.execute(leelsId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{leelsId}")
+    @PatchMapping("/{leelsId}/like")
     public ResponseEntity<HttpStatus> cancel(@PathVariable Long leelsId) {
         cancelLeelsLikeService.execute(leelsId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<LeelsResponse>> getLeels() {
+        var response = getReelsRecommnededService.execute();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
