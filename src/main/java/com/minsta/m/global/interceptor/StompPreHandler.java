@@ -23,7 +23,7 @@ public class StompPreHandler implements ChannelInterceptor {
 
         String authorizationHeader = String.valueOf(headerAccessor.getNativeHeader("Authorization"));
         if (authorizationHeader == null || authorizationHeader.isBlank()) {
-            throw new MessageDeliveryException("Message Exception");
+            throw new MessageDeliveryException("Authorization header is missing or blank");
         }
 
         String token = authorizationHeader.split(" ")[1];
