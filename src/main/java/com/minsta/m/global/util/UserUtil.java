@@ -25,7 +25,7 @@ public class UserUtil {
             authDetails = (AuthDetails) authentication.getPrincipal();
         }
         if (authDetails == null || authDetails.getPhone() == null) {
-            throw new BasicException(ErrorCode.SERVER_ERROR);
+            throw new BasicException(ErrorCode.TOKEN_NOT_VALID);
         }
 
         return userRepository.findByPhone(authDetails.getPhone()).orElseThrow(UserNotFoundException::new);
