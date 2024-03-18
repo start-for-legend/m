@@ -28,6 +28,10 @@ public class AuthDetails implements UserDetails {
         return user.getName();
     }
 
+    public String getPhone() {
+        return user.getPhone();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return false;
