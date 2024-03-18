@@ -51,6 +51,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/auth").authenticated()
                 .requestMatchers("/leels/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/file").authenticated()
+                .requestMatchers("/chat/**").permitAll()
+                .requestMatchers("/ws/**").permitAll()
+                .requestMatchers("/sub/**").permitAll()
+                .requestMatchers("/pub/**").permitAll()
                 .anyRequest().denyAll();
 
         http
