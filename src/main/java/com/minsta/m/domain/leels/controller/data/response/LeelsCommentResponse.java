@@ -20,6 +20,7 @@ public class LeelsCommentResponse {
 
     private int heartCount;
 
+    @Builder.Default
     private List<LeelsReplyCommentResponse> leelsReplyCommentResponses = new ArrayList<>();
 
     private boolean modify;

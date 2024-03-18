@@ -18,10 +18,12 @@ public class LeelsResponse {
 
     private String content;
 
+    @Builder.Default
     private List<String> hashtags = new ArrayList<>();
 
     private String leelsUrl;
 
+    @Builder.Default
     private List<LeelsCommentResponse> leelsCommentResponses = new ArrayList<>();
 
     private int heartCount;
