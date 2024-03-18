@@ -13,6 +13,7 @@ import com.minsta.m.global.error.ErrorCode;
 import com.minsta.m.global.security.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @RequiredArgsConstructor
@@ -29,14 +30,14 @@ public class ChatSaveServiceImpl implements ChatSaveService {
         ChatRoom chatRoom = chatRoomRepository.findById(message.getChatRoomId())
                 .orElseThrow(() -> new BasicException(ErrorCode.CHAT_ROOM_NOT_FOUND));
         chatRoom.setLastMessage(message.getMessage());
-        chatRoom.setLastMessageTime(ZonedDateTime.now());
+        chatRoom.setLastMessageTime(ZonedDateTime.now(ZoneId.of("UTC")));
 
         chatRoomRepository.save(chatRoom);
 
         ChatHistory chatHistory = ChatHistory.builder()
                 .sender(userRepository.findById(message.getSenderId()).orElseThrow(UserNotFoundException::new))
                 .content(message.getMessage())
-                .chatRoom(chatRoomRepository.getReferenceById(message.getChatRoomId()))
+                .chatRoom(chatRoom)
                 .build();
 
         chatHistoryRepository.save(chatHistory);
