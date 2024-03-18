@@ -40,7 +40,11 @@ public enum ErrorCode {
 
     //Client
     BAD_REQUEST("잘못된 요청",400),
-    DENIED_TOW_TOUCH("좋아요 누르기나 취소는 2번 터지할 수 없습니다", 403);
+    DENIED_TOW_TOUCH("좋아요 누르기나 취소는 2번 터지할 수 없습니다", 403),
+
+    //CHAT
+    EXIST_CHAT_ROOM("이미 채팅방이 존재합니다", 400),
+    CHAT_ROOM_NOT_FOUND("채팅방이 존재하지 않습니다", 404);
 
     private final String message;
     private final int status;
