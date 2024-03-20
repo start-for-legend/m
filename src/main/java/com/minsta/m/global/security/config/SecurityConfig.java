@@ -51,10 +51,14 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/auth").authenticated()
                 .requestMatchers("/leels/**").authenticated()
                 .requestMatchers(HttpMethod.POST, "/file").authenticated()
-                .requestMatchers("/chat/**").permitAll()
+                .requestMatchers("/chat/**").permitAll() //TODO: Stomp security
                 .requestMatchers("/ws/**").permitAll()
-                .requestMatchers("/sub/**").permitAll()
-                .requestMatchers("/pub/**").permitAll()
+                .requestMatchers("/sub/**").permitAll() //TODO: Stomp security
+                .requestMatchers("/pub/**").permitAll() //TODO: Stomp security
+                .requestMatchers(HttpMethod.POST, "/room/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/room/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/room/**").authenticated()
+                .requestMatchers(HttpMethod.PATCH, "/room/**").authenticated()
                 .anyRequest().denyAll();
 
         http
