@@ -38,6 +38,7 @@ public class ChatSaveServiceImpl implements ChatSaveService {
                 .sender(userRepository.findById(message.getSenderId()).orElseThrow(UserNotFoundException::new))
                 .content(message.getMessage())
                 .chatRoom(chatRoom)
+                .modify(false)
                 .build();
 
         chatHistoryRepository.save(chatHistory);
