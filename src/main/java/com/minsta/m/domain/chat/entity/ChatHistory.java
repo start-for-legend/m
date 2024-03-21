@@ -30,4 +30,15 @@ public class ChatHistory extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "room_id")
     private ChatRoom chatRoom;
+
+    @Column(nullable = false)
+    private boolean modify;
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setModify(boolean modify) {
+        this.modify = modify;
+    }
 }
