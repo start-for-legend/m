@@ -39,6 +39,7 @@ public class ChatSaveServiceImpl implements ChatSaveService {
                 .content(message.getMessage())
                 .chatRoom(chatRoom)
                 .modify(false)
+                .isRead(false)
                 .build();
 
         chatHistoryRepository.save(chatHistory);
