@@ -59,6 +59,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/room/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/room/**").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/room/**").authenticated()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().denyAll();
 
         http
