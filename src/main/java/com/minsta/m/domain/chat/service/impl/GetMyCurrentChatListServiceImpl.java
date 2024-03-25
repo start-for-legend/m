@@ -25,7 +25,7 @@ public class GetMyCurrentChatListServiceImpl implements GetMyCurrentChatListServ
     @Override
     public List<ChatRoomResponse> execute() {
         User currentUser = userUtil.getUser();
-        List<ChatRoom> chatRooms = chatRoomRepository.findByUserOrOtherUserId(currentUser, currentUser.getUserId());
+        List<ChatRoom> chatRooms = chatRoomRepository.findByUserOrOtherUserIdOrderByLastMessageTimeDesc(currentUser, currentUser.getUserId());
 
         return chatRooms.stream()
                 .map(chatRoom -> createChatRoomResponse(chatRoom, currentUser))

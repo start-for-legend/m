@@ -11,5 +11,5 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, UUID> {
 
     boolean existsByUserAndOtherUserId(User user, Long otherUserId);
 
-    List<ChatRoom> findByUserOrOtherUserId(User user, Long otherUserId);
+    List<ChatRoom> findByUserOrOtherUserIdOrderByLastMessageTimeDesc(User user, Long otherUserId);
 }
