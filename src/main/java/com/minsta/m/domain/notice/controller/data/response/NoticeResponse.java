@@ -1,6 +1,7 @@
 package com.minsta.m.domain.notice.controller.data.response;
 
 import com.minsta.m.domain.notice.entity.enums.NoticeType;
+import com.minsta.m.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,7 @@ public class NoticeResponse {
 
     private Long noticeId;
 
-    private String userNickName;
+    private User user;
 
     private NoticeType noticeType;
 

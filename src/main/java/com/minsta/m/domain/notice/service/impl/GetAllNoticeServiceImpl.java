@@ -55,17 +55,18 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                 return NoticeResponse.builder()
                         .noticeId(notice.getNoticeId())
                         .noticeType(notice.getNoticeType())
+                        .user(notice.getUser())
                         .url(null)
                         .isRead(notice.isRead())
                         .createAt(notice.getCreateAt())
                         .build();
             }
 
-            case COMMENT, LIKE -> {
+            case COMMENT, LIKE, FOLLOW -> {
                 return NoticeResponse.builder()
                         .noticeId(notice.getNoticeId())
                         .noticeType(notice.getNoticeType())
-                        .userNickName(notice.getUser().getNickName())
+                        .user(notice.getUser())
                         .url(notice.getUrl())
                         .isRead(notice.isRead())
                         .createAt(notice.getCreateAt())
