@@ -54,6 +54,10 @@ public class SmsSendServiceImpl implements SmsSendService {
     }
 
     private void save(String phone, int key) {
+        if (smsAuthRepository.existsByPhone(phone)) {
+            throw new BasicException(ErrorCode.BAD_REQUEST);
+        }
+
         SmsAuthentication auth = SmsAuthentication.builder()
                 .phone(phone)
                 .key(key)
