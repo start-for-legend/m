@@ -30,4 +30,8 @@ public class User extends BaseEntity {
 
     @Column(name = "profile_url")
     private String profileUrl;
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
 }
