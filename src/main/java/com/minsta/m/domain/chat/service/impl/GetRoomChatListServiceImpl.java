@@ -33,6 +33,7 @@ public class GetRoomChatListServiceImpl implements GetAllChatHistoryService {
             LocalDateTime time = history.isModify() ? history.getUpdatedAt() : history.getCreatedAt();
 
             ChatResponse chatResponse = ChatResponse.builder()
+                    .chatId(history.getChatId())
                     .userId(history.getSender().getUserId())
                     .userProfileUrl(history.getSender().getProfileUrl())
                     .chat(history.getContent())

@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ChatResponse {
 
+    private Long chatId;
+
     private Long userId;
 
     private String userProfileUrl;
