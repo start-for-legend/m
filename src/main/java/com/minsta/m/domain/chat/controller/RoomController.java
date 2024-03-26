@@ -25,6 +25,7 @@ public class RoomController {
     private final GetAllChatHistoryService getAllChatHistoryService;
     private final ChatUpdateService chatUpdateService;
     private final DeleteChatService deleteChatService;
+    private final MessageReadService messageReadService;
 
     @PostMapping("/{otherUserId}")
     public ResponseEntity<CreateRoomResponse> createRoom(@PathVariable Long otherUserId) {
@@ -42,6 +43,12 @@ public class RoomController {
     public ResponseEntity<List<ChatResponse>> getRoomChatList(@PathVariable UUID roomId) {
         var response = getAllChatHistoryService.execute(roomId);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{roomId}/{lastReadId}")
+    public ResponseEntity<HttpStatus> changeChatRead(@PathVariable UUID roomId, @PathVariable Long lastReadId) {
+        messageReadService.execute(roomId, lastReadId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/{roomId}/{chatId}")
