@@ -1,14 +1,9 @@
 package com.minsta.m.domain.user.controller;
 
-import com.minsta.m.domain.user.controller.data.request.LoginRequest;
-import com.minsta.m.domain.user.controller.data.request.SignupRequest;
-import com.minsta.m.domain.user.controller.data.request.SmsAuthRequest;
-import com.minsta.m.domain.user.controller.data.request.SmsSendRequest;
+import com.minsta.m.domain.user.controller.data.request.*;
 import com.minsta.m.domain.user.controller.data.response.LoginResponse;
-import com.minsta.m.domain.user.service.LoginService;
-import com.minsta.m.domain.user.service.SignupService;
-import com.minsta.m.domain.user.service.SmsAuthenticationService;
-import com.minsta.m.domain.user.service.SmsSendService;
+import com.minsta.m.domain.user.controller.data.response.UserResponse;
+import com.minsta.m.domain.user.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,10 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Tag(name = "http://10.53.68.120:80/user 하위 API", description = "User 관련 API")
@@ -37,6 +29,8 @@ public class UserController {
     private final LoginService loginService;
     private final SmsSendService smsSendService;
     private final SmsAuthenticationService smsAuthenticationService;
+    private final GetUserResponseService getUserResponseService;
+    private final SetProfileImageService setProfileImageService;
 
 
 
@@ -90,6 +84,34 @@ public class UserController {
     @PostMapping("/check")
     public ResponseEntity<HttpStatus> checkAuth(@RequestBody @Valid SmsAuthRequest smsAuthRequest) {
         smsAuthenticationService.execute(smsAuthRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "get user response", description = "로그인된 유저 정보 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true)),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Token InValid, Token Expired"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping
+    public ResponseEntity<UserResponse> getUserResponse() {
+        var response = getUserResponseService.execute();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "set user profile", description = "유저 프로필 추가 & 변경")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true)),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Token InValid, Token Expired"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @PatchMapping
+    public ResponseEntity<HttpStatus> setProfile(@RequestBody @Valid AwsUrlRequest awsUrlRequest) {
+        setProfileImageService.execute(awsUrlRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
