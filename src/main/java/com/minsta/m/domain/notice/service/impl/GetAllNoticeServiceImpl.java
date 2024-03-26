@@ -22,12 +22,12 @@ import static com.minsta.m.domain.chat.entity.QChatHistory.chatHistory;
 public class GetAllNoticeServiceImpl implements GetAllNoticeService {
 
     private final UserUtil userUtil;
-    private final SseEmitter sseEmitter;
     private final NoticeRepository noticeRepository;
     private final JPAQueryFactory em;
 
     @Override
     public SseEmitter execute(Long lastEventId) {
+        SseEmitter sseEmitter = new SseEmitter();
 
         for (Notice notice : noticeRepository.findAllByUserAndNoticeIdAfter(userUtil.getUser(), lastEventId)) {
             if (!notice.isValid()) {
