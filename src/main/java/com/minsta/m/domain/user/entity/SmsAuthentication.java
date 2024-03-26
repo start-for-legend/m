@@ -27,4 +27,8 @@ public class SmsAuthentication {
     public void setCheck(boolean check) {
         this.check = check;
     }
+
+    public void setKey(int key) {
+        this.key = key;
+    }
 }
