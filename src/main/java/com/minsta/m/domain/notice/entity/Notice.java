@@ -41,6 +41,9 @@ public class Notice {
     @CreatedDate
     private LocalDateTime createAt;
 
-    @Column(nullable = true, name = "nav_url")
+    @Column(name = "nav_url")
     private String url;
+
+    @Column(name = "receiver_id", nullable = false)
+    private Long receiverId;
 }
