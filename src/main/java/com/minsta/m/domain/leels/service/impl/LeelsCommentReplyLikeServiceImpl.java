@@ -4,11 +4,10 @@ import com.minsta.m.domain.leels.entity.LeelsCommentReplyLike;
 import com.minsta.m.domain.leels.entity.LeelsCommentReplyLikeEmbedded;
 import com.minsta.m.domain.leels.repository.LeelsCommentReplyLikeRepository;
 import com.minsta.m.domain.leels.service.LeelsCommentReplyLikeService;
+import com.minsta.m.domain.notice.entity.enums.NoticeType;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
-import com.minsta.m.global.util.LeelsCommentReplyUtil;
-import com.minsta.m.global.util.LeelsCommentUtil;
-import com.minsta.m.global.util.LeelsUtil;
-import com.minsta.m.global.util.UserUtil;
+import com.minsta.m.global.util.*;
+import com.minsta.m.global.util.request.NoticeRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -17,6 +16,7 @@ public class LeelsCommentReplyLikeServiceImpl implements LeelsCommentReplyLikeSe
 
     private final UserUtil userUtil;
     private final LeelsUtil leelsUtil;
+    private final CreateNotice createNotice;
     private final LeelsCommentUtil leelsCommentUtil;
     private final LeelsCommentReplyUtil leelsCommentReplyUtil;
     private final LeelsCommentReplyLikeRepository leelsCommentReplyLikeRepository;
@@ -39,6 +39,12 @@ public class LeelsCommentReplyLikeServiceImpl implements LeelsCommentReplyLikeSe
                 .user(userUtil.getUser())
                 .build();
 
+        createNotice.createNotice(new NoticeRequest(
+                NoticeType.LIKE,
+                (leelsId.toString() + leelsCommentId.toString() + leelsCommentReplyId.toString()),
+                userUtil.getUser(),
+                leelsCommentReplyUtil.getReply(leelsCommentReplyId).getUser().getUserId()
+        ));
         leelsCommentReplyLikeRepository.save(leelsCommentReplyLike);
     }
 }

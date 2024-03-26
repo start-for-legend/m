@@ -4,11 +4,14 @@ import com.minsta.m.domain.leels.controller.data.request.CreateLeelsCommentReque
 import com.minsta.m.domain.leels.entity.LeelsCommentReply;
 import com.minsta.m.domain.leels.repository.LeelsCommentReplyRepository;
 import com.minsta.m.domain.leels.service.CreateLeelsCommentReplyService;
+import com.minsta.m.domain.notice.entity.enums.NoticeType;
 import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
+import com.minsta.m.global.util.CreateNotice;
 import com.minsta.m.global.util.LeelsCommentUtil;
 import com.minsta.m.global.util.LeelsUtil;
 import com.minsta.m.global.util.UserUtil;
+import com.minsta.m.global.util.request.NoticeRequest;
 import lombok.RequiredArgsConstructor;
 
 
@@ -19,6 +22,7 @@ public class CreateLeelsCommentReplyServiceImpl implements CreateLeelsCommentRep
     private final UserUtil userUtil;
     private final LeelsUtil leelsUtil;
     private final LeelsCommentUtil leelsCommentUtil;
+    private final CreateNotice createNotice;
     private final LeelsCommentReplyRepository commentReplyRepository;
 
     @Override
@@ -34,6 +38,12 @@ public class CreateLeelsCommentReplyServiceImpl implements CreateLeelsCommentRep
                 .comment(replyRequest.getComment())
                 .build();
 
+        createNotice.createNotice(new NoticeRequest(
+                NoticeType.COMMENT_REPLY,
+                (leelsId.toString() + leelsCommentId.toString() + leelsCommentReply.getLeelsCommentReplyId().toString()),
+                userUtil.getUser(),
+                commentUser.getUserId()
+        ));
         commentReplyRepository.save(leelsCommentReply);
     }
 }

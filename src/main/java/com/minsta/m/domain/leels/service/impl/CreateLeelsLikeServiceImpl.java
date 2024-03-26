@@ -4,11 +4,14 @@ import com.minsta.m.domain.leels.entity.LeelsLike;
 import com.minsta.m.domain.leels.entity.LeelsLikeEmbedded;
 import com.minsta.m.domain.leels.repository.LeelsLikeRepository;
 import com.minsta.m.domain.leels.service.CreateLeelsLikeService;
+import com.minsta.m.domain.notice.entity.enums.NoticeType;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
+import com.minsta.m.global.util.CreateNotice;
 import com.minsta.m.global.util.LeelsUtil;
 import com.minsta.m.global.util.UserUtil;
+import com.minsta.m.global.util.request.NoticeRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -16,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class CreateLeelsLikeServiceImpl implements CreateLeelsLikeService {
 
     private final LeelsLikeRepository likeRepository;
+    private final CreateNotice createNotice;
     private final LeelsUtil leelsUtil;
     private final UserUtil userUtil;
 
@@ -36,6 +40,12 @@ public class CreateLeelsLikeServiceImpl implements CreateLeelsLikeService {
                 .leels(leelsUtil.getLeels(leelsId))
                 .build();
 
+        createNotice.createNotice(new NoticeRequest(
+                NoticeType.LIKE,
+                (leelsId.toString()),
+                userUtil.getUser(),
+                leelsUtil.getLeels(leelsId).getLeelsId()
+        ));
         likeRepository.save(leelsLike);
     }
 }

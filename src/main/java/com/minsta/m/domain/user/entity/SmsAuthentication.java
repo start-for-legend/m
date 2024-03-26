@@ -15,7 +15,7 @@ public class SmsAuthentication {
     @Column(name = "auth_id", nullable = false)
     private Long authId;
 
-    @Column(name = "phone_number", nullable = false, length = 11)
+    @Column(name = "phone_number", nullable = false, length = 11, unique = true)
     private String phone;
 
     @Column(name = "authentication_key", nullable = false)
@@ -26,5 +26,9 @@ public class SmsAuthentication {
 
     public void setCheck(boolean check) {
         this.check = check;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
     }
 }

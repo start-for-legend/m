@@ -9,4 +9,6 @@ import java.util.List;
 public interface ChatHistoryRepository extends JpaRepository<ChatHistory, Long> {
 
     List<ChatHistory> findAllByChatRoom(ChatRoom chatRoom);
+
+    List<ChatHistory> findAllByChatRoomAndChatIdIsAfter(ChatRoom chatRoom, Long chatId);
 }

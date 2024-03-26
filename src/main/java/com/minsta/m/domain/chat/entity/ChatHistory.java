@@ -1,5 +1,6 @@
 package com.minsta.m.domain.chat.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -24,6 +25,9 @@ public class ChatHistory extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User sender;
 
+    @Column(nullable = false, name = "receiver_id")
+    private Long receiverId;
+
     @Column(nullable = false, length = 100)
     private String content;
 
@@ -34,11 +38,19 @@ public class ChatHistory extends BaseEntity {
     @Column(nullable = false)
     private boolean modify;
 
+    @Column(name = "is_read")
+    @JsonIgnore
+    private boolean isRead;
+
     public void setContent(String content) {
         this.content = content;
     }
 
     public void setModify(boolean modify) {
         this.modify = modify;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }
