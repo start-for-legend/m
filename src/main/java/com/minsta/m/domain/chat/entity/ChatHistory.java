@@ -25,6 +25,9 @@ public class ChatHistory extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User sender;
 
+    @Column(nullable = false, name = "receiver_id")
+    private Long receiverId;
+
     @Column(nullable = false, length = 100)
     private String content;
 

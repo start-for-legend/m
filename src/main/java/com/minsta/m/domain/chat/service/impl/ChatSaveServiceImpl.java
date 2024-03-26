@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @ServiceWithTransactional
@@ -34,12 +35,16 @@ public class ChatSaveServiceImpl implements ChatSaveService {
 
         chatRoomRepository.save(chatRoom);
 
+        long receiverId = !Objects.equals(chatRoom.getOtherUserId(), message.getSenderId()) ?
+                chatRoom.getOtherUserId() : chatRoom.getUser().getUserId();
+
         ChatHistory chatHistory = ChatHistory.builder()
                 .sender(userRepository.findById(message.getSenderId()).orElseThrow(UserNotFoundException::new))
                 .content(message.getMessage())
                 .chatRoom(chatRoom)
                 .modify(false)
                 .isRead(false)
+                .receiverId(receiverId)
                 .build();
 
         chatHistoryRepository.save(chatHistory);
