@@ -9,6 +9,7 @@ import com.minsta.m.domain.chat.service.GetAllChatHistoryService;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
+import com.minsta.m.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GetRoomChatListServiceImpl implements GetAllChatHistoryService {
 
+    private final UserUtil userUtil;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatHistoryRepository chatHistoryRepository;
 
@@ -28,6 +30,10 @@ public class GetRoomChatListServiceImpl implements GetAllChatHistoryService {
         List<ChatResponse> chatResponses = new ArrayList<>();
 
         ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(() -> new BasicException(ErrorCode.CHAT_ROOM_NOT_FOUND));
+        if (!chatRoom.getOtherUserId().equals(userUtil.getUser().getUserId()) && !chatRoom.getUser().equals(userUtil.getUser())) {
+            throw new BasicException(ErrorCode.PERMISSION_DENIED_CHAT_ROOM);
+        }
+
         List<ChatHistory> histories = chatHistoryRepository.findAllByChatRoom(chatRoom);
         for (ChatHistory history : histories) {
             LocalDateTime time = history.isModify() ? history.getUpdatedAt() : history.getCreatedAt();
