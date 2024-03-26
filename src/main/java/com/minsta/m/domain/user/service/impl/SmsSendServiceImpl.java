@@ -55,15 +55,17 @@ public class SmsSendServiceImpl implements SmsSendService {
 
     private void save(String phone, int key) {
         if (smsAuthRepository.existsByPhone(phone)) {
-            throw new BasicException(ErrorCode.BAD_REQUEST);
+           SmsAuthentication auth = smsAuthRepository.findByPhone(phone);
+           auth.setKey(key);
+           smsAuthRepository.save(auth);
+        } else {
+            SmsAuthentication auth = SmsAuthentication.builder()
+                    .phone(phone)
+                    .key(key)
+                    .check(false)
+                    .build();
+
+            smsAuthRepository.save(auth);
         }
-
-        SmsAuthentication auth = SmsAuthentication.builder()
-                .phone(phone)
-                .key(key)
-                .check(false)
-                .build();
-
-        smsAuthRepository.save(auth);
     }
 }
