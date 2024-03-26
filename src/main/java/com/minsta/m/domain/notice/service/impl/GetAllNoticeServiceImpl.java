@@ -8,11 +8,14 @@ import com.minsta.m.global.annotation.ReadOnlyService;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
 import com.minsta.m.global.util.UserUtil;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+
+import static com.minsta.m.domain.chat.entity.QChatHistory.chatHistory;
 
 @ReadOnlyService
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
     private final UserUtil userUtil;
     private final SseEmitter sseEmitter;
     private final NoticeRepository noticeRepository;
+    private final JPAQueryFactory em;
 
     @Override
     public SseEmitter execute(Long lastEventId) {
@@ -34,14 +38,32 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
             sendNotification(sseEmitter, String.valueOf(notice.getNoticeId()), convert);
         }
 
+        sendNewMessageCount(sseEmitter);
+
         return sseEmitter;
     }
 
-    private void sendNotification(SseEmitter emitter, String eventId, Object data) {
+    private void sendNewMessageCount(SseEmitter emitter) {
+        long count = em.selectFrom(chatHistory)
+                .where(chatHistory.receiverId.eq(userUtil.getUser().getUserId()))
+                .where(chatHistory.isRead.eq(false))
+                .stream().count();
 
         try {
             emitter.send(SseEmitter.event()
-                    .id(eventId)
+                    .id("")
+                    .name("sse")
+                    .data(count, MediaType.APPLICATION_JSON));
+        } catch (IOException exception) {
+            emitter.completeWithError(exception);
+        }
+    }
+
+    private void sendNotification(SseEmitter emitter, String eventId, NoticeResponse data) {
+
+        try {
+            emitter.send(SseEmitter.event()
+                    .id(data.getNoticeId().toString())
                     .name("sse")
                     .data(data, MediaType.APPLICATION_JSON));
         } catch (IOException exception) {
@@ -62,7 +84,7 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                         .build();
             }
 
-            case COMMENT, LIKE, FOLLOW -> {
+            case COMMENT, LIKE, FOLLOW, COMMENT_REPLY -> {
                 return NoticeResponse.builder()
                         .noticeId(notice.getNoticeId())
                         .noticeType(notice.getNoticeType())
