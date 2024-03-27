@@ -73,7 +73,7 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
 
     private NoticeResponse convertResponse(Notice notice) {
         switch (notice.getNoticeType()) {
-            case MESSAGE -> {
+            case MESSAGE, FOLLOW -> {
                 return NoticeResponse.builder()
                         .noticeId(notice.getNoticeId())
                         .noticeType(notice.getNoticeType())
@@ -84,7 +84,7 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                         .build();
             }
 
-            case COMMENT, LIKE, FOLLOW, COMMENT_REPLY -> {
+            case COMMENT, LEELS_LIKE, COMMENT_LIKE, COMMENT_REPLY_LIKE, COMMENT_REPLY -> {
                 return NoticeResponse.builder()
                         .noticeId(notice.getNoticeId())
                         .noticeType(notice.getNoticeType())
