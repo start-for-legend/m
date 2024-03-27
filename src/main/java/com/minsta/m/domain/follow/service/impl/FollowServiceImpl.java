@@ -8,6 +8,8 @@ import com.minsta.m.domain.notice.entity.enums.NoticeType;
 import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.domain.user.repository.UserRepository;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
+import com.minsta.m.global.error.BasicException;
+import com.minsta.m.global.error.ErrorCode;
 import com.minsta.m.global.redis.RedisList;
 import com.minsta.m.global.security.exception.UserNotFoundException;
 import com.minsta.m.global.util.CreateNotice;
@@ -29,6 +31,9 @@ public class FollowServiceImpl implements FollowService {
     public void execute(Long userId) {
         User followed = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
+        if (userUtil.getUser().getUserId().equals(followed.getUserId())) {
+            throw new BasicException(ErrorCode.NOT_FOLLOW_MYSELF);
+        }
 
         Follow follow = Follow.builder()
                 .followEmbedded(new FollowEmbedded(

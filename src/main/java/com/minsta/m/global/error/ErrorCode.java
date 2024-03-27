@@ -47,7 +47,10 @@ public enum ErrorCode {
     CHAT_ROOM_NOT_FOUND("채팅방이 존재하지 않습니다", 404),
     PERMISSION_DENIED_CHAT_ROOM("채팅방에 속하지 않음", 403),
     PERMISSION_DENIED_DELETE_CHAT("채팅 작성자가 아님", 403),
-    CHAT_NOT_FOUND("채팅이 없음", 404);
+    CHAT_NOT_FOUND("채팅이 없음", 404),
+
+    //FOLLOW
+    NOT_FOLLOW_MYSELF("자기 자신은 영원한 친구입니다", 403);
 
     private final String message;
     private final int status;
