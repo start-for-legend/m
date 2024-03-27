@@ -29,7 +29,7 @@ public class FollowController {
             @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
     })
-    @PostMapping("/{uesrId}")
+    @PostMapping("/{userId}")
     public ResponseEntity<HttpStatus> follow(@PathVariable Long userId) {
         followService.execute(userId);
         return new ResponseEntity<>(HttpStatus.CREATED);
