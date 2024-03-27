@@ -4,6 +4,7 @@ import com.minsta.m.domain.notice.controller.data.response.NoticeResponse;
 import com.minsta.m.domain.notice.entity.Notice;
 import com.minsta.m.domain.notice.repository.NoticeRepository;
 import com.minsta.m.domain.notice.service.GetAllNoticeService;
+import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
@@ -27,15 +28,25 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
 
     @Override
     public SseEmitter execute(Long lastEventId) {
-        SseEmitter sseEmitter = new SseEmitter();
+        SseEmitter sseEmitter = new SseEmitter(10000000L);
+        if (lastEventId != null) {
+            for (Notice notice : noticeRepository.findAllByReceiverIdAndNoticeIdAfter(userUtil.getUser().getUserId(), lastEventId)) {
+                if (!notice.isValid()) {
+                    continue;
+                }
 
-        for (Notice notice : noticeRepository.findAllByUserAndNoticeIdAfter(userUtil.getUser(), lastEventId)) {
-            if (!notice.isValid()) {
-                continue;
+                NoticeResponse convert = convertResponse(notice);
+                sendNotification(sseEmitter, String.valueOf(notice.getNoticeId()), convert);
             }
+        } else {
+            for (Notice notice : noticeRepository.findAllByReceiverId(userUtil.getUser().getUserId())) {
+                if (notice.isValid()) {
+                    continue;
+                }
 
-            NoticeResponse convert = convertResponse(notice);
-            sendNotification(sseEmitter, String.valueOf(notice.getNoticeId()), convert);
+                NoticeResponse convert = convertResponse(notice);
+                sendNotification(sseEmitter, String.valueOf(notice.getNoticeId()), convert);
+            }
         }
 
         sendNewMessageCount(sseEmitter);
@@ -77,7 +88,11 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                 return NoticeResponse.builder()
                         .noticeId(notice.getNoticeId())
                         .noticeType(notice.getNoticeType())
-                        .user(notice.getUser())
+                        .userResponse(UserResponse.of(
+                                notice.getUser().getUserId(),
+                                notice.getUser().getNickName(),
+                                notice.getUser().getProfileUrl()
+                        ))
                         .url(null)
                         .isRead(notice.isRead())
                         .createAt(notice.getCreateAt())
@@ -88,7 +103,11 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                 return NoticeResponse.builder()
                         .noticeId(notice.getNoticeId())
                         .noticeType(notice.getNoticeType())
-                        .user(notice.getUser())
+                        .userResponse(UserResponse.of(
+                                notice.getUser().getUserId(),
+                                notice.getUser().getNickName(),
+                                notice.getUser().getProfileUrl()
+                        ))
                         .url(notice.getUrl())
                         .isRead(notice.isRead())
                         .createAt(notice.getCreateAt())

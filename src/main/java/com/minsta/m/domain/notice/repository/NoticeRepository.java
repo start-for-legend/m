@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
 
-    List<Notice> findAllByUserAndNoticeIdAfter(User user, Long noticeId);
+    List<Notice> findAllByReceiverIdAndNoticeIdAfter(Long receiverId, Long noticeId);
+
+    List<Notice> findAllByReceiverId(Long receiverId);
 }

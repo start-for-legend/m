@@ -1,6 +1,5 @@
 package com.minsta.m.domain.notice.controller;
 
-import com.minsta.m.domain.chat.controller.data.response.ChatResponse;
 import com.minsta.m.domain.notice.controller.data.response.NoticeResponse;
 import com.minsta.m.domain.notice.service.GetAllNoticeService;
 import com.minsta.m.domain.notice.service.NoticeReadService;
@@ -45,10 +44,10 @@ public class NoticeController {
             @ApiResponse(responseCode = "500", description = "Server Error"),
     })
     @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter getNotice(
+    public ResponseEntity<SseEmitter> getNotice(
             @RequestHeader(value = "last-notice-id", required = false, defaultValue = "") Long lastEventId
     ) {
-        return getAllNoticeService.execute(lastEventId);
+        return new ResponseEntity<>(getAllNoticeService.execute(lastEventId), HttpStatus.OK);
     }
 
     @Operation(summary = "notice read without chat", description = "채팅을 제외한 알람 읽음 처리")
