@@ -6,5 +6,7 @@ import lombok.Builder;
 public record UserResponse(
         Long userId,
         String nickName,
-        String profileUrl
+        String profileUrl,
+        int follower,
+        int following
 ) {}
