@@ -48,6 +48,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           strip_components: 1
           script: |
+            ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.SERVER_IP }} "echo 'SSH 연결 테스트'"
             scp deploy/docker-compose.yml ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/docker-compose.yml
             scp scripts/ec2-deploy.sh ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/ec2-deploy.sh
 
