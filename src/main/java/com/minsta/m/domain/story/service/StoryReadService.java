@@ -1,6 +1,8 @@
 package com.minsta.m.domain.story.service;
 
+import com.minsta.m.domain.story.controller.data.response.StoryResponse;
+
 public interface StoryReadService {
 
-    void execute(Long storyId);
+    StoryResponse execute(Long storyId);
 }
