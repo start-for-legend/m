@@ -7,8 +7,6 @@ services:
     image: blohny/minsta:latest
     container_name: "app"
     env_file: .env
-    volumes:
-      - log:/var/log
     ports:
       - "9071:9071"
 
@@ -31,4 +29,3 @@ services:
 
 volumes:
   db:
-  log:
