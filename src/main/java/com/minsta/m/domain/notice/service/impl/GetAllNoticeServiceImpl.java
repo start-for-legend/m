@@ -28,7 +28,7 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
 
     @Override
     public SseEmitter execute(Long lastEventId) {
-        SseEmitter sseEmitter = new SseEmitter(10000000L);
+        SseEmitter sseEmitter = new SseEmitter(10000L);
         if (lastEventId != null) {
             for (Notice notice : noticeRepository.findAllByReceiverIdAndNoticeIdAfter(userUtil.getUser().getUserId(), lastEventId)) {
                 if (!notice.isValid()) {
