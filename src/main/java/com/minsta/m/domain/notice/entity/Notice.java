@@ -46,4 +46,12 @@ public class Notice {
 
     @Column(name = "receiver_id", nullable = false)
     private Long receiverId;
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
+
+    public void setValid(boolean valid) {
+        isValid = valid;
+    }
 }

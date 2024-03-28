@@ -41,7 +41,7 @@ public class CreateLeelsLikeServiceImpl implements CreateLeelsLikeService {
                 .build();
 
         createNotice.createNotice(new NoticeRequest(
-                NoticeType.LIKE,
+                NoticeType.LEELS_LIKE,
                 (leelsId.toString()),
                 userUtil.getUser(),
                 leelsUtil.getLeels(leelsId).getLeelsId()

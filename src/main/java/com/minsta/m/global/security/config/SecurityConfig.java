@@ -59,6 +59,13 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/room/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/room/**").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/room/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/notice/**").authenticated()
+                .requestMatchers(HttpMethod.PATCH, "/notice/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/follow/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/follow/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/follow/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/story/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/story/**").authenticated()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().denyAll();
 
