@@ -24,6 +24,9 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      - name: List files
+        run: ls -la
+        
       - name: Build Docker Image
         run: docker build -t blohny/minsta .
 
