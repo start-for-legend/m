@@ -30,7 +30,7 @@ jobs:
           context: .
           file: ./deploy/Dockerfile.app
           push: true
-          tags: blohny/lucky-pocket-app:latest
+          tags: blohny/minsta:latest
 
   ec2-deploy:
     runs-on: ubuntu-latest
