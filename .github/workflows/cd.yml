@@ -47,8 +47,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
           strip_components: 1
-          source: "deploy/docker-compose.yml,scripts/ec2-deploy.sh"
-          target: "/home/ubuntu/"
+          script: |
+            scp deploy/docker-compose.yml ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/docker-compose.yml
+            scp scripts/ec2-deploy.sh ubuntu@${{ secrets.SERVER_IP }}:/home/ubuntu/ec2-deploy.sh
 
       - name: Deploy application to EC2
         uses: appleboy/ssh-action@master
