@@ -1,3 +1,4 @@
+#!/bin/bash
 CONFIG_PATH="/home/ubuntu/docker-compose.yml"
 
 sudo docker-compose pull
