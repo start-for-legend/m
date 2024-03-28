@@ -64,6 +64,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/follow/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/follow/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/follow/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/story/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/story/**").authenticated()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().denyAll();
 

@@ -50,7 +50,10 @@ public enum ErrorCode {
     CHAT_NOT_FOUND("채팅이 없음", 404),
 
     //FOLLOW
-    NOT_FOLLOW_MYSELF("자기 자신은 영원한 친구입니다", 403);
+    NOT_FOLLOW_MYSELF("자기 자신은 영원한 친구입니다", 403),
+
+    //STORY
+    STORY_NOT_FOUND("스토리가 없습니다", 404);
 
     private final String message;
     private final int status;
