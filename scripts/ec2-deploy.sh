@@ -5,10 +5,10 @@ sudo docker-compose pull
 
 if [ ! -e /home/ubuntu/.initialized ];then
   echo "First time running"
-  sudo docker-compose -f $CONFIG_PATH up redis mysql -d --wait
+  sudo docker-compose -f $CONFIG_PATH up -d redis mysql
   touch /home/ubuntu/.initialized
 fi
 
-sudo docker-compose -f $CONFIG_PATH up app -d
+sudo docker-compose -f $CONFIG_PATH up -d app
 
 sudo docker image prune -af
