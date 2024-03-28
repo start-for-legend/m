@@ -23,6 +23,12 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
         
       - name: Build and push "app" process
         uses: docker/build-push-action@v5
