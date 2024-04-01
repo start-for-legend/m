@@ -5,7 +5,7 @@ import com.minsta.m.domain.feed.entity.feed.FeedLike;
 import com.minsta.m.domain.feed.entity.feed.FeedLikeEmbedded;
 import com.minsta.m.domain.feed.repository.FeedLikeRepository;
 import com.minsta.m.domain.feed.repository.FeedRepository;
-import com.minsta.m.domain.feed.service.FeedLikeCancelServicempl;
+import com.minsta.m.domain.feed.service.FeedLikeCancelService;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ServiceWithTransactional
-public class FeedLikeCancelServiceImpl implements FeedLikeCancelServicempl {
+public class FeedLikeCancelServiceImpl implements FeedLikeCancelService {
 
     private final UserUtil userUtil;
     private final FeedRepository feedRepository;

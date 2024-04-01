@@ -25,7 +25,7 @@ public class FeedController {
     private final CreateFeedService createFeedService;
     private final GetFeedDetailService getFeedDetailService;
     private final FeedLikeService feedLikeService;
-    private final FeedLikeCancelServicempl feedLikeCancelServicempl;
+    private final FeedLikeCancelService feedLikeCancelServicempl;
     private final DeleteFeedService deleteFeedService;
 
     @Operation(summary = "create feed", description = "피드 생성")

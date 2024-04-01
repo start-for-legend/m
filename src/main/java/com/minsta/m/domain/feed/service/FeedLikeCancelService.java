@@ -1,6 +1,6 @@
 package com.minsta.m.domain.feed.service;
 
-public interface FeedLikeCancelServicempl {
+public interface FeedLikeCancelService {
 
     void execute(Long feedId);
 }
