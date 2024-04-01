@@ -27,13 +27,8 @@ public class FeedLikeCancelServiceImpl implements FeedLikeCancelService {
             throw new BasicException(ErrorCode.FEED_NOT_LIKE);
         }
 
-        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new BasicException(ErrorCode.FEED_NOT_FOUND));
-
-        FeedLike feedLike = FeedLike.builder()
-                .user(userUtil.getUser())
-                .feed(feed)
-                .feedLikeEmbedded(new FeedLikeEmbedded(userUtil.getUser().getUserId(), feedId))
-                .build();
-        feedLikeRepository.save(feedLike);
+        FeedLike feedLike = feedLikeRepository.findById(new FeedLikeEmbedded(userUtil.getUser().getUserId(), feedId))
+                .orElseThrow(() -> new BasicException(ErrorCode.SERVER_ERROR));
+        feedLikeRepository.delete(feedLike);
     }
 }
