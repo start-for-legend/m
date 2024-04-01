@@ -53,7 +53,13 @@ public enum ErrorCode {
     NOT_FOLLOW_MYSELF("자기 자신은 영원한 친구입니다", 403),
 
     //STORY
-    STORY_NOT_FOUND("스토리가 없습니다", 404);
+    STORY_NOT_FOUND("스토리가 없습니다", 404),
+
+    //FEED
+    FEED_NOT_FOUND("피드가 없습니다", 404),
+    FEED_NOT_LIKE("좋아요를 누르지 않음", 403),
+    FEED_EXIST_LIKE("좋아요를 이미 누름", 403),
+    NOT_OWNER_FEED("피드 주인이 아님", 403);
 
     private final String message;
     private final int status;
