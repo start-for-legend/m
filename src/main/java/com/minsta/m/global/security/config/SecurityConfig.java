@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
+                .requestMatchers("/user/**").permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/auth").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/auth").authenticated()
                 .requestMatchers("/leels/**").authenticated()
