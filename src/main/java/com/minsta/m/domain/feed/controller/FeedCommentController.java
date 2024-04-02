@@ -15,9 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "http://10.53.68.120:80/feed/{feedId} 하위 API", description = "Feed Comment 관련 API")
+@Tag(name = "http://10.53.68.120:80/feed-comment/{feedId} 하위 API", description = "Feed Comment 관련 API")
 @RestController
-@RequestMapping("/feed/{feedId}")
+@RequestMapping("/feed-comment/{feedId}")
 @RequiredArgsConstructor
 public class FeedCommentController {
 
