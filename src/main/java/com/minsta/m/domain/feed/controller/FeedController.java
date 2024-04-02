@@ -2,7 +2,7 @@ package com.minsta.m.domain.feed.controller;
 
 import com.minsta.m.domain.feed.controller.data.request.CreateFeedRequest;
 import com.minsta.m.domain.feed.controller.data.response.FeedResponse;
-import com.minsta.m.domain.feed.service.*;
+import com.minsta.m.domain.feed.service.feed.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;

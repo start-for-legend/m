@@ -1,8 +1,8 @@
-package com.minsta.m.domain.feed.service.impl;
+package com.minsta.m.domain.feed.service.impl.feed;
 
 import com.minsta.m.domain.feed.entity.feed.Feed;
 import com.minsta.m.domain.feed.repository.FeedRepository;
-import com.minsta.m.domain.feed.service.DeleteFeedService;
+import com.minsta.m.domain.feed.service.feed.DeleteFeedService;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;

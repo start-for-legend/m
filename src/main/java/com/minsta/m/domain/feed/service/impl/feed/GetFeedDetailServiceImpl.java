@@ -1,9 +1,9 @@
-package com.minsta.m.domain.feed.service.impl;
+package com.minsta.m.domain.feed.service.impl.feed;
 
 import com.minsta.m.domain.feed.controller.data.response.FeedResponse;
 import com.minsta.m.domain.feed.entity.feed.Feed;
 import com.minsta.m.domain.feed.repository.FeedRepository;
-import com.minsta.m.domain.feed.service.GetFeedDetailService;
+import com.minsta.m.domain.feed.service.feed.GetFeedDetailService;
 import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.minsta.m.global.error.BasicException;

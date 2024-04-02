@@ -1,4 +1,4 @@
-package com.minsta.m.domain.feed.service;
+package com.minsta.m.domain.feed.service.feed;
 
 import com.minsta.m.domain.feed.controller.data.response.FeedResponse;
 
