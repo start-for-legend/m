@@ -28,4 +28,8 @@ public class FeedComment extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "feed")
     private Feed feed;
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
