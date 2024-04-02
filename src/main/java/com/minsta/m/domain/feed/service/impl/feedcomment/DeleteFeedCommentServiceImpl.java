@@ -19,7 +19,7 @@ public class DeleteFeedCommentServiceImpl implements DeleteFeedCommentService {
     @Override
     public void execute(Long feedId, Long feedCommentId) {
 
-        FeedComment comment = feedCommentRepository.findById(feedCommentId).orElseThrow(() -> new BasicException(ErrorCode.FEED_COMMENT_NOT_FOUNND));
+        FeedComment comment = feedCommentRepository.findById(feedCommentId).orElseThrow(() -> new BasicException(ErrorCode.FEED_COMMENT_NOT_FOUND));
         if (!comment.getUser().equals(userUtil.getUser())) {
             throw new BasicException(ErrorCode.FEED_COMMENT_NOT_OWNER);
         }

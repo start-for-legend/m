@@ -20,7 +20,7 @@ public class EditFeedCommentServiceImpl implements EditFeedCommentService {
     @Override
     public void execute(Long feedId, Long feedCommentId, EditFeedCommentRequest editFeedCommentRequest) {
 
-        FeedComment feedComment = feedCommentRepository.findById(feedCommentId).orElseThrow(() -> new BasicException(ErrorCode.FEED_COMMENT_NOT_FOUNND));
+        FeedComment feedComment = feedCommentRepository.findById(feedCommentId).orElseThrow(() -> new BasicException(ErrorCode.FEED_COMMENT_NOT_FOUND));
         if (!feedComment.getUser().equals(userUtil.getUser())) {
             throw new BasicException(ErrorCode.FEED_COMMENT_NOT_OWNER);
         }
