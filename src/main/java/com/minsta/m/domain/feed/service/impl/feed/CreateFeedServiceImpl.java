@@ -1,9 +1,9 @@
-package com.minsta.m.domain.feed.service.impl;
+package com.minsta.m.domain.feed.service.impl.feed;
 
 import com.minsta.m.domain.feed.controller.data.request.CreateFeedRequest;
 import com.minsta.m.domain.feed.entity.feed.Feed;
 import com.minsta.m.domain.feed.repository.FeedRepository;
-import com.minsta.m.domain.feed.service.CreateFeedService;
+import com.minsta.m.domain.feed.service.feed.CreateFeedService;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
 import com.minsta.m.global.util.UserUtil;
 import lombok.RequiredArgsConstructor;

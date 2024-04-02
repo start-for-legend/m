@@ -1,5 +1,6 @@
 package com.minsta.m.domain.feed.entity.feed;
 
+import com.minsta.m.domain.feed.entity.feedcomment.FeedComment;
 import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -44,4 +45,8 @@ public class Feed extends BaseEntity {
     @NotEmpty
     @Builder.Default
     private List<String> fileUrls = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
+    private List<FeedComment> comments = new ArrayList<>();
 }

@@ -1,4 +1,4 @@
-package com.minsta.m.domain.feed.service;
+package com.minsta.m.domain.feed.service.feed;
 
 public interface FeedLikeService {
 
