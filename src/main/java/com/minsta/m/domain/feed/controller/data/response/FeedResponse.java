@@ -21,8 +21,10 @@ public class FeedResponse {
 
     private String content;
 
+    @Builder.Default
     private List<String> hashtags = new ArrayList<>();
 
+    @Builder.Default
     private List<String> fileUrls = new ArrayList<>();
 
 }
