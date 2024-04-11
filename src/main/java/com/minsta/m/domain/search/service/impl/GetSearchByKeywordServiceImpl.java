@@ -35,7 +35,7 @@ public class GetSearchByKeywordServiceImpl implements GetSearchByKeywordService 
         if (keyword.startsWith("#")) {
             return SearchResponse.forHashTag(getHashTags(keyword, 20));
         } else {
-            return SearchResponse.forKeyWard(getHashTags("#" + keyword, 5), getUsers());
+            return SearchResponse.forKeyword(getHashTags("#" + keyword, 5), getUsers());
         }
     }
 
