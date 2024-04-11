@@ -13,7 +13,7 @@ public record SearchResponse(
         return new SearchResponse(hashtags, null);
     }
 
-    public static SearchResponse forKeyWard(Map<String, Long> hashtags, Map<UserResponse, Long> userResponses) {
+    public static SearchResponse forKeyword(Map<String, Long> hashtags, Map<UserResponse, Long> userResponses) {
         return new SearchResponse(hashtags, userResponses);
     }
 }
