@@ -69,6 +69,7 @@ public class SecurityConfig {
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/feed/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/search/**").authenticated()
+                .requestMatchers(HttpMethod.GET, "/explore/**").authenticated()
                 .anyRequest().denyAll();
 
         http

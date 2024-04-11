@@ -1,7 +1,7 @@
-package com.minsta.m.domain.search.controller;
+package com.minsta.m.domain.explore.controller;
 
-import com.minsta.m.domain.search.controller.data.response.SearchResponse;
-import com.minsta.m.domain.search.service.GetSearchByKeywordService;
+import com.minsta.m.domain.explore.controller.response.ExploreResponse;
+import com.minsta.m.domain.explore.service.ExploreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,24 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "http://10.53.68.120:80/search 하위 API", description = "search 관련 API")
+
+@Tag(name = "http://10.53.68.120:80/explore 하위 API", description = "explore 관련 API")
 @RestController
-@RequestMapping("/search")
+@RequestMapping("/explore")
 @RequiredArgsConstructor
-public class SearchController {
+public class ExploreController {
 
-    private final GetSearchByKeywordService getSearchByKeywordService;
+    private final ExploreService exploreService;
 
-    @Operation(summary = "search", description = "검색 탭 데이터 가져오기")
+    @Operation(summary = "explore", description = "탐색 탭 데이터 가져오기")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "검색 탭 데이터 가져옴", content = @Content(schema = @Schema(implementation = SearchResponse.class))),
+            @ApiResponse(responseCode = "200", description = "탐색 탭 데이터 가져옴", content = @Content(schema = @Schema(implementation = ExploreResponse.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
             @ApiResponse(responseCode = "401", description = "Token InValid, Token Expired"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
     })
     @GetMapping
-    public ResponseEntity<SearchResponse> getSearch(@RequestParam(name = "keyword") String keyword) {
-        var response = getSearchByKeywordService.execute(keyword);
+    public ResponseEntity<ExploreResponse> get(@RequestParam(value = "page", defaultValue = "0") int page) {
+        var response = exploreService.execute(page);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
