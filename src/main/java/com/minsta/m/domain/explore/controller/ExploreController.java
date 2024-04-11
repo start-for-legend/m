@@ -2,7 +2,6 @@ package com.minsta.m.domain.explore.controller;
 
 import com.minsta.m.domain.explore.controller.response.ExploreResponse;
 import com.minsta.m.domain.explore.service.ExploreService;
-import com.minsta.m.domain.user.controller.data.response.LoginResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
