@@ -8,9 +8,11 @@ public record UserResponse(
         String nickName,
         String profileUrl,
         int follower,
-        int following
+        int following,
+        String name
 ) {
-    public static UserResponse of(Long userId, String nickName, String profileUrl) {
-        return new UserResponse(userId, nickName, profileUrl, 0, 0);
+
+    public static UserResponse of(Long userId, String nickName, String profileUrl, String name) {
+        return new UserResponse(userId, nickName, profileUrl, 0, 0, name);
     }
 }

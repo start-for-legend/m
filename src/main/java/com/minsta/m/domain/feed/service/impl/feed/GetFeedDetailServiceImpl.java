@@ -23,7 +23,7 @@ public class GetFeedDetailServiceImpl implements GetFeedDetailService {
 
         return FeedResponse.builder()
                 .feedId(feed.getFeedId())
-                .userResponse(UserResponse.of(feed.getUser().getUserId(), feed.getUser().getNickName(), feed.getUser().getProfileUrl()))
+                .userResponse(UserResponse.of(feed.getUser().getUserId(), feed.getUser().getNickName(), feed.getUser().getProfileUrl(), feed.getUser().getName()))
                 .content(feed.getContent())
                 .hashtags(feed.getHashtags())
                 .fileUrls(feed.getFileUrls())
