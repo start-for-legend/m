@@ -9,6 +9,7 @@ import com.minsta.m.domain.search.service.GetSearchByKeywordService;
 import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +36,7 @@ public class GetSearchByKeywordServiceImpl implements GetSearchByKeywordService 
         if (keyword.startsWith("#")) {
             return SearchResponse.forHashTag(getHashTags(keyword, 20));
         } else {
-            return SearchResponse.forKeyword(getHashTags("#" + keyword, 5), getUsers());
+            return SearchResponse.forKeyword(getHashTags("#" + keyword, 5), getUsers(keyword));
         }
     }
 
@@ -66,14 +67,19 @@ public class GetSearchByKeywordServiceImpl implements GetSearchByKeywordService 
                 ));
     }
 
-    private Map<UserResponse, Long> getUsers() {
+    private Map<UserResponse, Long> getUsers(String keyword) {
         Map<UserResponse, Long> users = new LinkedHashMap<>();
 
+        BooleanExpression whereCondition = containsHangul(keyword) ?
+                user.name.like("%" + keyword + "%") :
+                user.nickName.like("%" + keyword + "%");
+        
         List<Tuple> results = em
                 .select(user.userId, user.name, user.profileUrl, follow.followedUser.userId.count())
                 .from(user)
                 .join(follow)
                 .on(user.userId.eq(follow.followedUser.userId))
+                .where(whereCondition)
                 .groupBy(user.userId)
                 .orderBy(follow.followedUser.userId.count().desc())
                 .limit(15)
@@ -85,5 +91,14 @@ public class GetSearchByKeywordServiceImpl implements GetSearchByKeywordService 
         }
 
         return users;
+    }
+
+    private boolean containsHangul(String text) {
+        for (char c : text.toCharArray()) {
+            if (c >= '\uAC00' && c <= '\uD7A3') {
+                return true;
+            }
+        }
+        return false;
     }
 }
