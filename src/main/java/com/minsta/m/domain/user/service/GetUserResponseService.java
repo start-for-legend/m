@@ -1,8 +1,8 @@
 package com.minsta.m.domain.user.service;
 
-import com.minsta.m.domain.user.controller.data.response.UserResponse;
+import com.minsta.m.domain.user.controller.data.response.UserDetailResponse;
 
 public interface GetUserResponseService {
 
-    UserResponse execute();
+    UserDetailResponse execute();
 }
