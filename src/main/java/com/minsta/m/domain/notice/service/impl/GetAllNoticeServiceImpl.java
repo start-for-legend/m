@@ -91,7 +91,8 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                         .userResponse(UserResponse.of(
                                 notice.getUser().getUserId(),
                                 notice.getUser().getNickName(),
-                                notice.getUser().getProfileUrl()
+                                notice.getUser().getProfileUrl(),
+                                notice.getUser().getName()
                         ))
                         .url(null)
                         .isRead(notice.isRead())
@@ -106,7 +107,8 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                         .userResponse(UserResponse.of(
                                 notice.getUser().getUserId(),
                                 notice.getUser().getNickName(),
-                                notice.getUser().getProfileUrl()
+                                notice.getUser().getProfileUrl(),
+                                notice.getUser().getName()
                         ))
                         .url(notice.getUrl())
                         .isRead(notice.isRead())

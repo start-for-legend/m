@@ -12,7 +12,7 @@ public record UserResponse(
         String name
 ) {
 
-    public static UserResponse of(Long userId, String nickName, String profileUrl) {
-        return new UserResponse(userId, nickName, profileUrl, 0, 0, profileUrl);
+    public static UserResponse of(Long userId, String nickName, String profileUrl, String name) {
+        return new UserResponse(userId, nickName, profileUrl, 0, 0, name);
     }
 }

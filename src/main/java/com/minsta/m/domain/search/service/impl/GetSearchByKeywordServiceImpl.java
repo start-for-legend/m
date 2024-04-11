@@ -80,7 +80,7 @@ public class GetSearchByKeywordServiceImpl implements GetSearchByKeywordService 
                 .fetch();
 
         for (Tuple t : results) {
-            UserResponse userResponse = UserResponse.of(t.get(user.userId), t.get(user.name), t.get(user.profileUrl));
+            UserResponse userResponse = UserResponse.of(t.get(user.userId), t.get(user.nickName), t.get(user.profileUrl), t.get(user.name));
             users.put(userResponse, t.get(follow.followedUser.userId.count()));
         }
 
