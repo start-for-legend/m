@@ -73,7 +73,7 @@ public class GetSearchByKeywordServiceImpl implements GetSearchByKeywordService 
         BooleanExpression whereCondition = containsHangul(keyword) ?
                 user.name.like("%" + keyword + "%") :
                 user.nickName.like("%" + keyword + "%");
-        
+
         List<Tuple> results = em
                 .select(user.userId, user.name, user.profileUrl, follow.followedUser.userId.count())
                 .from(user)
