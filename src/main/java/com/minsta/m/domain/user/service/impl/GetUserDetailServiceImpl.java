@@ -2,8 +2,11 @@ package com.minsta.m.domain.user.service.impl;
 
 import com.minsta.m.domain.user.controller.data.response.UserDetailResponse;
 import com.minsta.m.domain.user.entity.User;
-import com.minsta.m.domain.user.service.GetUserResponseService;
+import com.minsta.m.domain.user.repository.UserRepository;
+import com.minsta.m.domain.user.service.GetUserDetailService;
 import com.minsta.m.global.annotation.ReadOnlyService;
+import com.minsta.m.global.error.BasicException;
+import com.minsta.m.global.error.ErrorCode;
 import com.minsta.m.global.util.UserUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -18,29 +21,31 @@ import static com.minsta.m.domain.leels.entity.QLeels.leels;
 
 @ReadOnlyService
 @RequiredArgsConstructor
-public class GetUserResponseServiceImpl implements GetUserResponseService {
+public class GetUserDetailServiceImpl implements GetUserDetailService {
 
     private final UserUtil userUtil;
+    private final UserRepository userRepository;
     private final JPAQueryFactory em;
 
     @Override
-    public UserDetailResponse execute() {
+    public UserDetailResponse execute(Long userId) {
 
-        User user = userUtil.getUser();
+        User user = userRepository.findById(userId).orElseThrow(() -> new BasicException(ErrorCode.USER_NOT_FOUND));
+        List<Map<Long, String>> feeds = getFeedsList(user.getUserId());
 
         return UserDetailResponse.of(
                 user.getUserId(),
                 user.getNickName(),
-                0,
+                feeds.size(),
                 getFollower(user.getUserId()),
                 getFollowing(user.getUserId()),
-                getFeedsList(),
-                getLeelsList(),
+                feeds,
+                getLeelsList(user.getUserId()),
                 user.getProfileUrl()
         );
     }
 
-    private List<Map<Long, String>> getFeedsList() {
+    private List<Map<Long, String>> getFeedsList(Long userId) {
 
         return em
                 .select(feed.feedId, feed.fileUrls)
@@ -53,7 +58,7 @@ public class GetUserResponseServiceImpl implements GetUserResponseService {
                 .collect(Collectors.toList());
     }
 
-    private List<Map<Long, String>> getLeelsList() {
+    private List<Map<Long, String>> getLeelsList(Long userId) {
 
         return em
                 .select(leels.leelsId, leels.leelsUrl)

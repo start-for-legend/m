@@ -30,6 +30,7 @@ public class LeelsController {
     private final CreateLeelsLikeService createLeelsLikeService;
     private final CancelLeelsLikeService cancelLeelsLikeService;
     private final GetReelsRecommendedService getReelsRecommnededService;
+    private final LeelsDetailService leelsDetailService;
 
 
     @Operation(summary = "create leels", description = "릴스 생성")
@@ -105,6 +106,22 @@ public class LeelsController {
     @GetMapping
     public ResponseEntity<List<LeelsResponse>> getLeels() {
         var response = getReelsRecommnededService.execute();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "get leels by id", description = "릴스아이디로 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "릴스 가져옴",
+                    headers = @Header(name = "accessToken", description = "accessToken Value", required = true),
+                    content = @Content(schema = @Schema(implementation = LeelsResponse.class))
+            ),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "404", description = "leels or leelsComment or leelsCommentReply Not Found By Server error code"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping("/{leelsId}")
+    public ResponseEntity<LeelsResponse> getLeelsById(@PathVariable Long leelsId) {
+        var response = leelsDetailService.execute(leelsId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
