@@ -70,6 +70,7 @@ public class SecurityConfig {
                 .requestMatchers("/feed/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/search/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/").authenticated()
+                .requestMatchers(HttpMethod.GET, "/explore/**").authenticated()
                 .anyRequest().denyAll();
 
         http
