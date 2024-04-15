@@ -35,7 +35,7 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                     continue;
                 }
 
-                NoticeResponse convert = convertResponse(notice);
+                NoticeResponse convert = createNoticeResponse(notice);
                 sendNotification(sseEmitter, String.valueOf(notice.getNoticeId()), convert);
             }
         } else {
@@ -44,7 +44,7 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
                     continue;
                 }
 
-                NoticeResponse convert = convertResponse(notice);
+                NoticeResponse convert = createNoticeResponse(notice);
                 sendNotification(sseEmitter, String.valueOf(notice.getNoticeId()), convert);
             }
         }
@@ -82,41 +82,38 @@ public class GetAllNoticeServiceImpl implements GetAllNoticeService {
         }
     }
 
-    private NoticeResponse convertResponse(Notice notice) {
-        switch (notice.getNoticeType()) {
-            case MESSAGE, FOLLOW -> {
-                return NoticeResponse.builder()
-                        .noticeId(notice.getNoticeId())
-                        .noticeType(notice.getNoticeType())
-                        .userResponse(UserResponse.of(
-                                notice.getUser().getUserId(),
-                                notice.getUser().getNickName(),
-                                notice.getUser().getProfileUrl(),
-                                notice.getUser().getName()
-                        ))
-                        .url(null)
-                        .isRead(notice.isRead())
-                        .createAt(notice.getCreateAt())
-                        .build();
-            }
+    public NoticeResponse createNoticeResponse(Notice notice) {
+        String noticeTypeName = notice.getNoticeType().toString();
 
-            case COMMENT, LEELS_LIKE, COMMENT_LIKE, COMMENT_REPLY_LIKE, COMMENT_REPLY -> {
-                return NoticeResponse.builder()
-                        .noticeId(notice.getNoticeId())
-                        .noticeType(notice.getNoticeType())
-                        .userResponse(UserResponse.of(
-                                notice.getUser().getUserId(),
-                                notice.getUser().getNickName(),
-                                notice.getUser().getProfileUrl(),
-                                notice.getUser().getName()
-                        ))
-                        .url(notice.getUrl())
-                        .isRead(notice.isRead())
-                        .createAt(notice.getCreateAt())
-                        .build();
-            }
-
-            default -> throw new BasicException(ErrorCode.BAD_REQUEST);
+        if (noticeTypeName.startsWith("LEELS")) {
+            return buildNoticeResponse(notice, notice.getUrl());
         }
+
+        if (noticeTypeName.startsWith("FEED")) {
+            return buildNoticeResponse(notice, notice.getUrl());
+        }
+
+        if (noticeTypeName.equals("MESSAGE") || noticeTypeName.equals("FOLLOW")) {
+            return buildNoticeResponse(notice, null);
+        }
+
+        throw new BasicException(ErrorCode.BAD_REQUEST);
     }
+
+    private NoticeResponse buildNoticeResponse(Notice notice, String url) {
+        return NoticeResponse.builder()
+                .noticeId(notice.getNoticeId())
+                .noticeType(notice.getNoticeType())
+                .userResponse(UserResponse.of(
+                        notice.getUser().getUserId(),
+                        notice.getUser().getNickName(),
+                        notice.getUser().getProfileUrl(),
+                        notice.getUser().getName()
+                ))
+                .url(url)
+                .isRead(notice.isRead())
+                .createAt(notice.getCreateAt())
+                .build();
+    }
+
 }
