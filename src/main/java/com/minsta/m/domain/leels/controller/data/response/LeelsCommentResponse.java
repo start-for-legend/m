@@ -1,6 +1,6 @@
 package com.minsta.m.domain.leels.controller.data.response;
 
-import com.minsta.m.domain.user.entity.User;
+import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class LeelsCommentResponse {
 
     private Long leelsCommentId;
 
-    private User author;
+    private UserResponse author;
 
     private String comment;
 

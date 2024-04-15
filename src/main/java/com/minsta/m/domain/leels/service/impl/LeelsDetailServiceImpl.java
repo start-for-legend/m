@@ -9,6 +9,8 @@ import com.minsta.m.domain.leels.entity.LeelsCommentReply;
 import com.minsta.m.domain.leels.repository.LeelsCommentReplyRepository;
 import com.minsta.m.domain.leels.repository.LeelsCommentRepository;
 import com.minsta.m.domain.leels.service.LeelsDetailService;
+import com.minsta.m.domain.user.controller.data.response.UserResponse;
+import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
@@ -38,10 +40,11 @@ public class LeelsDetailServiceImpl implements LeelsDetailService {
     public LeelsResponse execute(Long leelsId) {
 
         Leels leels = leelsUtil.getLeels(leelsId);
+        User current = leels.getUser();
 
         LeelsResponse leelsResponse = LeelsResponse.builder()
                 .leelsId(leels.getLeelsId())
-                .author(leels.getUser())
+                .author(UserResponse.of(current.getUserId(), current.getNickName(), current.getProfileUrl(), current.getName()))
                 .content(leels.getContent())
                 .hashtags(leels.getHashtags())
                 .leelsUrl(leels.getLeelsUrl())
@@ -86,10 +89,11 @@ public class LeelsDetailServiceImpl implements LeelsDetailService {
         for (LeelsComment comment : leelsComments) {
             boolean check;
             check = comment.getUpdatedAt() != null && comment.getUpdatedAt().isAfter(comment.getCreatedAt());
+            User current = comment.getUser();
 
             LeelsCommentResponse leelsCommentResponse = LeelsCommentResponse.builder()
                     .leelsCommentId(comment.getLeelsCommentId())
-                    .author(comment.getUser())
+                    .author(UserResponse.of(current.getUserId(), current.getNickName(), current.getProfileUrl(), current.getName()))
                     .comment(comment.getComment())
                     .heartCount(getHeartCount(GetReelsRecommendedServiceImpl.Type.LEELSCOMMENT, 0L, comment.getLeelsCommentId()))
                     .modify(check)
@@ -111,9 +115,11 @@ public class LeelsDetailServiceImpl implements LeelsDetailService {
             boolean check;
             check = leelsCommentReply.getUpdatedAt() != null && leelsCommentReply.getUpdatedAt().isAfter(leelsCommentReply.getCreatedAt());
 
+            User current = leelsCommentReply.getUser();
+
             LeelsReplyCommentResponse leelsReplyCommentResponse = LeelsReplyCommentResponse.builder()
                     .leelsReplyCommentId(leelsCommentReply.getLeelsCommentReplyId())
-                    .author(leelsCommentReply.getReplyUser())
+                    .author(UserResponse.of(current.getUserId(), current.getNickName(), current.getProfileUrl(), current.getName()))
                     .comment(leelsCommentReply.getComment())
                     .heartCount(getHeartCount(GetReelsRecommendedServiceImpl.Type.LEELSCOMMENTREPLY, leelsId, leelsCommentId, leelsCommentReply.getLeelsCommentReplyId()))
                     .modify(check)
