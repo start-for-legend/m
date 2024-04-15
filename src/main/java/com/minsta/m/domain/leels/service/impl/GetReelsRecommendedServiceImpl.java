@@ -6,15 +6,17 @@ import com.minsta.m.domain.leels.controller.data.response.LeelsResponse;
 import com.minsta.m.domain.leels.entity.Leels;
 import com.minsta.m.domain.leels.entity.LeelsComment;
 import com.minsta.m.domain.leels.entity.LeelsCommentReply;
-import com.minsta.m.domain.leels.entity.LeelsLike;
-import com.minsta.m.domain.leels.repository.*;
+import com.minsta.m.domain.leels.repository.LeelsCommentReplyRepository;
+import com.minsta.m.domain.leels.repository.LeelsCommentRepository;
+import com.minsta.m.domain.leels.repository.LeelsRepository;
 import com.minsta.m.domain.leels.service.GetReelsRecommendedService;
+import com.minsta.m.domain.user.controller.data.response.UserResponse;
+import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
 import com.minsta.m.global.util.LeelsCommentUtil;
 import com.minsta.m.global.util.LeelsUtil;
-import com.minsta.m.global.util.UserUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -35,11 +37,8 @@ public class GetReelsRecommendedServiceImpl implements GetReelsRecommendedServic
         LEELSCOMMENTREPLY
     }
 
-    private final UserUtil userUtil;
-
     private final LeelsUtil leelsUtil;
     private final LeelsRepository leelsRepository;
-    private final LeelsLikeRepository leelsLikeRepository;
 
     private final LeelsCommentUtil leelsCommentUtil;
     private final LeelsCommentRepository leelsCommentRepository;
@@ -52,39 +51,12 @@ public class GetReelsRecommendedServiceImpl implements GetReelsRecommendedServic
     public List<LeelsResponse> execute() {
         List<LeelsResponse> leelsResponses = new ArrayList<>(25);
 
-        if (leelsLikeRepository.countByUser(userUtil.getUser()) > 0) {
-            List<LeelsLike> leelsLikes = em.selectFrom(leelsLike)
-                    .where(leelsLike.user.eq(userUtil.getUser()))
-                    .fetch();
-
-            String hash = null;
-            for (LeelsLike like : leelsLikes) {
-                if (like.getLeels().getHashtags().get(1) != null) {
-                    hash = like.getLeels().getHashtags().get(1);
-                    break;
-                }
-            }
-
-            for (Leels leels : leelsRepository.findAllByHashtagsContains(hash)) {
-                LeelsResponse leelsResponse = LeelsResponse.builder()
-                        .leelsId(leels.getLeelsId())
-                        .author(leels.getUser())
-                        .content(leels.getContent())
-                        .hashtags(leels.getHashtags())
-                        .leelsUrl(leels.getLeelsUrl())
-                        .leelsCommentResponses(getLeelsComment(leels.getLeelsId()))
-                        .heartCount(getHeartCount(Type.LEELS, leels.getLeelsId()))
-                        .build();
-
-                leelsResponses.add(leelsResponse);
-            }
-
-        } else {
             for (Leels leels : leelsRepository.findDistinctLeelsRandomly()) {
+                User current = leels.getUser();
 
                 LeelsResponse leelsResponse = LeelsResponse.builder()
                         .leelsId(leels.getLeelsId())
-                        .author(leels.getUser())
+                        .author(UserResponse.of(current.getUserId(), current.getNickName(), current.getProfileUrl(), current.getName()))
                         .content(leels.getContent())
                         .hashtags(leels.getHashtags())
                         .leelsUrl(leels.getLeelsUrl())
@@ -95,7 +67,6 @@ public class GetReelsRecommendedServiceImpl implements GetReelsRecommendedServic
                 leelsResponses.add(leelsResponse);
             }
 
-        }
         return leelsResponses;
     }
 
@@ -133,10 +104,11 @@ public class GetReelsRecommendedServiceImpl implements GetReelsRecommendedServic
         for (LeelsComment comment : leelsComments) {
             boolean check;
             check = comment.getUpdatedAt() != null && comment.getUpdatedAt().isAfter(comment.getCreatedAt());
+            User current = comment.getUser();
 
             LeelsCommentResponse leelsCommentResponse = LeelsCommentResponse.builder()
                     .leelsCommentId(comment.getLeelsCommentId())
-                    .author(comment.getUser())
+                    .author(UserResponse.of(current.getUserId(), current.getNickName(), current.getProfileUrl(), current.getName()))
                     .comment(comment.getComment())
                     .heartCount(getHeartCount(Type.LEELSCOMMENT, 0L, comment.getLeelsCommentId()))
                     .modify(check)
@@ -158,9 +130,11 @@ public class GetReelsRecommendedServiceImpl implements GetReelsRecommendedServic
             boolean check;
             check = leelsCommentReply.getUpdatedAt() != null && leelsCommentReply.getUpdatedAt().isAfter(leelsCommentReply.getCreatedAt());
 
+            User current = leelsCommentReply.getReplyUser();
+
             LeelsReplyCommentResponse leelsReplyCommentResponse = LeelsReplyCommentResponse.builder()
                     .leelsReplyCommentId(leelsCommentReply.getLeelsCommentReplyId())
-                    .author(leelsCommentReply.getReplyUser())
+                    .author(UserResponse.of(current.getUserId(), current.getNickName(), current.getProfileUrl(), current.getName()))
                     .comment(leelsCommentReply.getComment())
                     .heartCount(getHeartCount(Type.LEELSCOMMENTREPLY, leelsId, leelsCommentId, leelsCommentReply.getLeelsCommentReplyId()))
                     .modify(check)
