@@ -14,9 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "http://10.53.68.120:80/leels/{leelsId}/{leelsCommentId} 하위 API", description = "leels comment reply 관련 API")
+@Tag(name = "http://10.53.68.120:80/leels-comment-reply/{leelsId}/{leelsCommentId} 하위 API", description = "leels comment reply 관련 API")
 @RestController
-@RequestMapping("/leels/{leelsId}/{leelsCommentId}")
+@RequestMapping("/leels-comment-reply/{leelsId}/{leelsCommentId}")
 @RequiredArgsConstructor
 public class LeelsCommentReplyController {
 
@@ -35,7 +35,7 @@ public class LeelsCommentReplyController {
             @ApiResponse(responseCode = "404", description = "leels or leelscomment not found"),
             @ApiResponse(responseCode = "500", description = "Server Error")
     })
-    @PostMapping("/reply")
+    @PostMapping
     public ResponseEntity<HttpStatus> createCommentReply(
             @RequestBody @Valid CreateLeelsCommentRequest replyRequest,
             @PathVariable Long leelsId,

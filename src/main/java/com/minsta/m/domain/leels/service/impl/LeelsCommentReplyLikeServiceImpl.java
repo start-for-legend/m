@@ -40,8 +40,8 @@ public class LeelsCommentReplyLikeServiceImpl implements LeelsCommentReplyLikeSe
                 .build();
 
         createNotice.createNotice(new NoticeRequest(
-                NoticeType.COMMENT_REPLY_LIKE,
-                (leelsId.toString() + leelsCommentId.toString() + leelsCommentReplyId.toString()),
+                NoticeType.LEELS_COMMENT_REPLY_LIKE,
+                "leels/" + (leelsId.toString() + leelsCommentId.toString() + leelsCommentReplyId.toString()),
                 userUtil.getUser(),
                 leelsCommentReplyUtil.getReply(leelsCommentReplyId).getUser().getUserId()
         ));

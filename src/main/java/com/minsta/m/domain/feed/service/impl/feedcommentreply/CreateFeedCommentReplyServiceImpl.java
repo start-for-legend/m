@@ -8,10 +8,13 @@ import com.minsta.m.domain.feed.repository.FeedCommentReplyRepository;
 import com.minsta.m.domain.feed.repository.FeedCommentRepository;
 import com.minsta.m.domain.feed.repository.FeedRepository;
 import com.minsta.m.domain.feed.service.feedcommentreply.CreateFeedCommentReplyService;
+import com.minsta.m.domain.notice.entity.enums.NoticeType;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
+import com.minsta.m.global.util.CreateNotice;
 import com.minsta.m.global.util.UserUtil;
+import com.minsta.m.global.util.request.NoticeRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class CreateFeedCommentReplyServiceImpl implements CreateFeedCommentReplyService {
 
     private final UserUtil userUtil;
+    private final CreateNotice createNotice;
     private final FeedRepository feedRepository;
     private final FeedCommentRepository feedCommentRepository;
     private final FeedCommentReplyRepository feedCommentReplyRepository;
@@ -35,7 +39,13 @@ public class CreateFeedCommentReplyServiceImpl implements CreateFeedCommentReply
                 .feedComment(feedComment)
                 .content(createFeedCommentReplyRequest.getContent())
                 .build();
-
         feedCommentReplyRepository.save(feedCommentReply);
+
+        createNotice.createNotice(new NoticeRequest(
+                NoticeType.FEED_COMMENT_REPLY,
+                "feed/" + feedId + "/" + feedCommentId + "/" + feedCommentReply.getFeedCommentReplyId(),
+                userUtil.getUser(),
+                feedComment.getUser().getUserId()
+        ));
     }
 }

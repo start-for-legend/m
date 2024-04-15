@@ -42,8 +42,8 @@ public class CreateLeelsCommentLikeServiceImpl implements CreateLeelsCommentLike
                 .build();
 
         createNotice.createNotice(new NoticeRequest(
-                NoticeType.COMMENT_LIKE,
-                (leelsId.toString() + leelsCommentId.toString()),
+                NoticeType.LEELS_COMMENT_LIKE,
+                "leels/" + (leelsId.toString() + leelsCommentId.toString()),
                 userUtil.getUser(),
                 leelsCommentUtil.getComment(leelsCommentId).getUser().getUserId()
         ));

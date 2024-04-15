@@ -32,13 +32,13 @@ public class CreateLeelsCommentServiceImpl implements CreateLeelsCommentService 
                 .comment(createLeelsCommentRequest.getComment())
                 .leelsCommentReplies(new ArrayList<>())
                 .build();
+        leelsCommentRepository.save(leelsComment);
 
         createNotice.createNotice(new NoticeRequest(
-                NoticeType.COMMENT,
-                (leelsId.toString() + leelsComment.getLeelsCommentId().toString()),
+                NoticeType.LEELS_COMMENT,
+                "leels/ " + (leelsId.toString() + "/" + leelsComment.getLeelsCommentId().toString()),
                 userUtil.getUser(),
                 leelsUtil.getLeels(leelsId).getUser().getUserId()
         ));
-        leelsCommentRepository.save(leelsComment);
     }
 }

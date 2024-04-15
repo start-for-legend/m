@@ -27,4 +27,9 @@ public class FeedCommentLike {
     @MapsId("feedId")
     @JoinColumn(name = "feed_id")
     private Feed feed;
+
+    @ManyToOne
+    @MapsId("feedCommentId")
+    @JoinColumn(name = "feed_comment_id")
+    private FeedComment feedComment;
 }
