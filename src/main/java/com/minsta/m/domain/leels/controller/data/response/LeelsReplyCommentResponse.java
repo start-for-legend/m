@@ -1,6 +1,6 @@
 package com.minsta.m.domain.leels.controller.data.response;
 
-import com.minsta.m.domain.user.entity.User;
+import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import lombok.*;
 
 @Getter
@@ -11,7 +11,7 @@ public class LeelsReplyCommentResponse {
 
     private Long leelsReplyCommentId;
 
-    private User author;
+    private UserResponse author;
 
     private String comment;
 
