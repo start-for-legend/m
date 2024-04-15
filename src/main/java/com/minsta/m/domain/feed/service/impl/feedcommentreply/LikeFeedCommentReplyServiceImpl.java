@@ -64,7 +64,7 @@ public class LikeFeedCommentReplyServiceImpl implements LikeFeedCommentReplyServ
 
         createNotice.createNotice(new NoticeRequest(
                 NoticeType.FEED_COMMENT_REPLY_LIKE,
-                "",
+                "feed/" + feedId + "/" + feedCommentId + "/" + feedCommentReplyId,
                 userUtil.getUser(),
                 feedCommentReply.getUser().getUserId()
         ));

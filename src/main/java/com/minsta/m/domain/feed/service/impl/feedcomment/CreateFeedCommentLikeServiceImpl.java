@@ -55,7 +55,7 @@ public class CreateFeedCommentLikeServiceImpl implements CreateFeedCommentLikeSe
 
         createNotice.createNotice(new NoticeRequest(
                 NoticeType.FEED_COMMENT_LIKE,
-                "",
+                "feed/" + feedId + "/" + feedCommentId,
                 userUtil.getUser(),
                 feedComment.getUser().getUserId()
         ));

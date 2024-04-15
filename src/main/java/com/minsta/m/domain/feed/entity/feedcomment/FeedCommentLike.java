@@ -1,7 +1,6 @@
 package com.minsta.m.domain.feed.entity.feedcomment;
 
 import com.minsta.m.domain.feed.entity.feed.Feed;
-import com.minsta.m.domain.leels.entity.LeelsComment;
 import com.minsta.m.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
