@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @ServiceWithTransactional
 public class CreateNotice {
 
-    private static final String SERVER = "http://10.53.68.120:80/";
+    private static final String SERVER = "https://living-sculpin-honestly.ngrok-free.app/";
     private final NoticeRepository noticeRepository;
 
     public void createNotice(NoticeRequest data) {

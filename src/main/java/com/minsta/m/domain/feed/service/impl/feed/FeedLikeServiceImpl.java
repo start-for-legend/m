@@ -6,10 +6,13 @@ import com.minsta.m.domain.feed.entity.feed.FeedLikeEmbedded;
 import com.minsta.m.domain.feed.repository.FeedLikeRepository;
 import com.minsta.m.domain.feed.repository.FeedRepository;
 import com.minsta.m.domain.feed.service.feed.FeedLikeService;
+import com.minsta.m.domain.notice.entity.enums.NoticeType;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
+import com.minsta.m.global.util.CreateNotice;
 import com.minsta.m.global.util.UserUtil;
+import com.minsta.m.global.util.request.NoticeRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class FeedLikeServiceImpl implements FeedLikeService {
     private final FeedRepository feedRepository;
     private final FeedLikeRepository feedLikeRepository;
     private final UserUtil userUtil;
+    private final CreateNotice createNotice;
 
     @Override
     public void execute(Long feedId) {
@@ -34,5 +38,12 @@ public class FeedLikeServiceImpl implements FeedLikeService {
                 .feedLikeEmbedded(new FeedLikeEmbedded(userUtil.getUser().getUserId(), feed.getFeedId()))
                 .build();
         feedLikeRepository.save(feedLike);
+
+        createNotice.createNotice(new NoticeRequest(
+                NoticeType.FEED_LIKE,
+                "feed/" + feedId,
+                userUtil.getUser(),
+                feed.getUser().getUserId()
+        ));
     }
 }

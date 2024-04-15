@@ -6,10 +6,13 @@ import com.minsta.m.domain.feed.entity.feedcomment.FeedComment;
 import com.minsta.m.domain.feed.repository.FeedCommentRepository;
 import com.minsta.m.domain.feed.repository.FeedRepository;
 import com.minsta.m.domain.feed.service.feedcomment.CreateFeedCommentService;
+import com.minsta.m.domain.notice.entity.enums.NoticeType;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
+import com.minsta.m.global.util.CreateNotice;
 import com.minsta.m.global.util.UserUtil;
+import com.minsta.m.global.util.request.NoticeRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class CreateFeedCommentServiceImpl implements CreateFeedCommentService {
 
     private final UserUtil userUtil;
+    private final CreateNotice createNotice;
     private final FeedRepository feedRepository;
     private final FeedCommentRepository feedCommentRepository;
 
@@ -30,7 +34,13 @@ public class CreateFeedCommentServiceImpl implements CreateFeedCommentService {
                 .user(userUtil.getUser())
                 .feed(feed)
                 .build();
-
         feedCommentRepository.save(feedComment);
+
+        createNotice.createNotice(new NoticeRequest(
+                NoticeType.FEED_COMMENT,
+                "feed/" + feedComment.getFeedCommentId(),
+                userUtil.getUser(),
+                feed.getUser().getUserId()
+        ));
     }
 }

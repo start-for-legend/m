@@ -14,9 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@Tag(name = "http://10.53.68.120:80/leels/{leelsId} 하위 API", description = "leels comment 관련 API")
+@Tag(name = "http://10.53.68.120:80/leels-comment/{leelsId} 하위 API", description = "leels comment 관련 API")
 @RestController
-@RequestMapping("/leels/{leelsId}")
+@RequestMapping("/leels-comment/{leelsId}")
 @RequiredArgsConstructor
 public class LeelsCommentController {
 
