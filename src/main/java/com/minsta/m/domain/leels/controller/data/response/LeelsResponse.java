@@ -23,8 +23,5 @@ public class LeelsResponse {
 
     private String leelsUrl;
 
-    @Builder.Default
-    private List<LeelsCommentResponse> leelsCommentResponses = new ArrayList<>();
-
     private int heartCount;
 }

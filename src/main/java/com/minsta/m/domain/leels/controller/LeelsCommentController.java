@@ -1,7 +1,7 @@
 package com.minsta.m.domain.leels.controller;
 
 import com.minsta.m.domain.leels.controller.data.request.CreateLeelsCommentRequest;
-import com.minsta.m.domain.leels.service.*;
+import com.minsta.m.domain.leels.service.leelscomment.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -117,5 +117,10 @@ public class LeelsCommentController {
     ) {
         leelsCommentLikeCancelService.execute(leelsId, leelsCommentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping
+    public ResponseEntity<HttpStatus> getComments() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

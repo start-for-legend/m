@@ -3,17 +3,15 @@ package com.minsta.m.domain.explore.service.impl;
 import com.minsta.m.domain.explore.controller.response.ExploreResponse;
 import com.minsta.m.domain.explore.service.ExploreService;
 import com.minsta.m.domain.feed.controller.data.response.FeedResponse;
-import com.minsta.m.domain.leels.service.GetReelsRecommendedService;
+import com.minsta.m.domain.leels.service.leels.GetReelsRecommendedService;
 import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.minsta.m.domain.feed.entity.feed.QFeed.feed;
 import static com.minsta.m.domain.user.entity.QUser.user;
