@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.minsta.m.domain.leels.entity.QLeelsCommentReply.leelsCommentReply;
+import static com.minsta.m.domain.leels.entity.QLeelsCommentReplyLike.leelsCommentReplyLike;
 
 @ReadOnlyService
 @RequiredArgsConstructor
@@ -49,7 +50,10 @@ public class GetReplyCommentListByIdServiceImpl implements GetReplyCommentListBy
     }
 
     private int getHeartCount(Long id) {
-        return 1;
+        return em.
+                selectFrom(leelsCommentReplyLike)
+                .where(leelsCommentReplyLike.leelsCommentReplyLikeEmbedded.leelsCommentReplyId.eq(id))
+                .fetch().size();
     }
 
     private UserResponse getUser(User user) {
