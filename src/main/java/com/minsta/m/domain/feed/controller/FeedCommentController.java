@@ -2,9 +2,12 @@ package com.minsta.m.domain.feed.controller;
 
 import com.minsta.m.domain.feed.controller.data.request.CreateFeedCommentRequest;
 import com.minsta.m.domain.feed.controller.data.request.EditFeedCommentRequest;
+import com.minsta.m.domain.feed.controller.data.response.FeedCommentResponse;
 import com.minsta.m.domain.feed.service.feedcomment.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Tag(name = "http://10.53.68.120:80/feed-comment/{feedId} 하위 API", description = "Feed Comment 관련 API")
@@ -26,6 +31,7 @@ public class FeedCommentController {
     private final DeleteFeedCommentService deleteFeedCommentService;
     private final EditFeedCommentService editFeedCommentService;
     private final CommentCancelLikeService commentCancelLikeService;
+    private final GetCommentsByIdService getCommentsByIdService;
 
     @Operation(summary = "create feed comment", description = "피드 댓글 생성")
     @ApiResponses({
@@ -120,5 +126,26 @@ public class FeedCommentController {
     ) {
         editFeedCommentService.execute(feedId, feedCommentId, editFeedCommentRequest);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @Operation(summary = "get feed comments", description = "피드 댓글 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "피드 댓글 가져오기 성공",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = FeedCommentResponse.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "404", description = "Feed Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping
+    public ResponseEntity<List<FeedCommentResponse>> getCommentsById(
+            @PathVariable Long feedId,
+            @RequestParam(name = "lastCommentId", defaultValue = "0") Long lastCommentId
+    ) {
+        var response = getCommentsByIdService.execute(feedId, lastCommentId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

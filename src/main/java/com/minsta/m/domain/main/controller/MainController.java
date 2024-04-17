@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "http://10.53.68.120:80 Main API", description = "MAIN 관련 API")
 @RestController
-@RequestMapping("/")
+@RequestMapping("/main")
 @RequiredArgsConstructor
 public class MainController {
 

@@ -86,7 +86,7 @@ public class SecurityConfig {
 
                 .requestMatchers(HttpMethod.GET, "/search/**").authenticated()
 
-                .requestMatchers(HttpMethod.GET, "/").authenticated()
+                .requestMatchers(HttpMethod.GET, "/main").authenticated()
 
                 .requestMatchers(HttpMethod.GET, "/explore/**").authenticated()
 
