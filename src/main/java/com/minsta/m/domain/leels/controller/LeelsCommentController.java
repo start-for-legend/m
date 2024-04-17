@@ -1,9 +1,12 @@
 package com.minsta.m.domain.leels.controller;
 
 import com.minsta.m.domain.leels.controller.data.request.CreateLeelsCommentRequest;
+import com.minsta.m.domain.leels.controller.data.response.LeelsCommentResponse;
 import com.minsta.m.domain.leels.service.leelscomment.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Tag(name = "http://10.53.68.120:80/leels-comment/{leelsId} 하위 API", description = "leels comment 관련 API")
@@ -25,6 +30,7 @@ public class LeelsCommentController {
     private final CreateLeelsCommentLikeService createLeelsCommentLikeService;
     private final UpdateLeelsCommentService updateLeelsCommentService;
     private final LeelsCommentLikeCancelService leelsCommentLikeCancelService;
+    private final GetCommentListByLeelsIdService getCommentListByLeelsIdService;
 
     @Operation(summary = "Create Comment", description = "릴스에 대한 댓글 생성")
     @ApiResponses({
@@ -119,8 +125,23 @@ public class LeelsCommentController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @Operation(summary = "get comment list by leels id", description = "릴스 아이디로 댓글 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "get Comment",
+                    headers = @Header(name = "accessToken",description = "accessToken Value", required = true),
+                    content = @Content(schema = @Schema(implementation = LeelsCommentResponse.class)
+                    )),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Invalid Token, Token Expired"),
+            @ApiResponse(responseCode = "404", description = "leels not found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
     @GetMapping
-    public ResponseEntity<HttpStatus> getComments() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<List<LeelsCommentResponse>> getComments(
+            @PathVariable Long leelsId,
+            @RequestParam(name = "lastCommentId", defaultValue = "0") Long lastCommentId
+    ) {
+        var response = getCommentListByLeelsIdService.execute(leelsId, lastCommentId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
