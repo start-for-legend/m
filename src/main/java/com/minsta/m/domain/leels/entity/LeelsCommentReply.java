@@ -25,9 +25,6 @@ public class LeelsCommentReply extends BaseEntity {
     private User user;
 
     @ManyToOne
-    private User replyUser;
-
-    @ManyToOne
     @JoinColumn(name = "leels_id")
     private Leels leels;
 
