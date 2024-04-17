@@ -35,7 +35,6 @@ public class LeelsCommentReplyLikeServiceImpl implements LeelsCommentReplyLikeSe
                 .leelsCommentReplyLikeEmbedded(likeEmbedded)
                 .leels(leelsUtil.getLeels(leelsId))
                 .leelsComment(leelsCommentUtil.getComment(leelsCommentId))
-                .replyUser(leelsCommentReplyUtil.getReply(leelsCommentReplyId).getReplyUser())
                 .user(userUtil.getUser())
                 .build();
 

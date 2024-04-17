@@ -27,12 +27,8 @@ public class CreateLeelsCommentReplyServiceImpl implements CreateLeelsCommentRep
 
     @Override
     public void execute(Long leelsId, Long leelsCommentId, CreateLeelsCommentRequest replyRequest) {
-
-        User commentUser = leelsCommentUtil.getComment(leelsCommentId).getUser();
-
         LeelsCommentReply leelsCommentReply = LeelsCommentReply.builder()
-                .user(commentUser)
-                .replyUser(userUtil.getUser())
+                .user(userUtil.getUser())
                 .leels(leelsUtil.getLeels(leelsId))
                 .leelsComment(leelsCommentUtil.getComment(leelsCommentId))
                 .comment(replyRequest.getComment())
@@ -43,7 +39,7 @@ public class CreateLeelsCommentReplyServiceImpl implements CreateLeelsCommentRep
                 NoticeType.LEELS_COMMENT_REPLY,
                 "leels/" + (leelsId.toString() + leelsCommentId.toString() + leelsCommentReply.getLeelsCommentReplyId().toString()),
                 userUtil.getUser(),
-                commentUser.getUserId()
+                leelsCommentUtil.getComment(leelsCommentId).getUser().getUserId()
         ));
     }
 }
