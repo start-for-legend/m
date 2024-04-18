@@ -13,4 +13,6 @@ public record MainStoryResponse(
     public static MainStoryResponse of(long userId, String profileUrl, String nickName, List<Map<Long, Boolean>> storyValue) {
         return new MainStoryResponse(userId, profileUrl, nickName, storyValue);
     }
+
+    public MainStoryResponse {}
 }

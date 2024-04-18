@@ -7,4 +7,7 @@ public record RecommendedFollowerResponse (
         Long userId,
         String profileUrl,
         String nickName
-){ }
+) {
+
+    public RecommendedFollowerResponse {}
+}

@@ -5,6 +5,7 @@ import com.minsta.m.domain.feed.entity.feed.Feed;
 import com.minsta.m.domain.main.controller.data.response.MainResponse;
 import com.minsta.m.domain.main.controller.data.response.MainStoryResponse;
 import com.minsta.m.domain.main.service.MainResponseService;
+import com.minsta.m.domain.story.entity.Story;
 import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.global.annotation.ReadOnlyService;
@@ -68,25 +69,26 @@ public class MainResponseServiceImpl implements MainResponseService {
     }
 
     private List<MainStoryResponse> getStory() {
-        List<Tuple> stories = em
-                .select(story.storyId, story.user)
+        List<Story> stories = em
+                .selectFrom(story)
                 .leftJoin(story.user, user)
                 .leftJoin(follow)
                 .on(follow.followedUser.userId.eq(story.user.userId))
                 .where(follow.user.userId.eq(userUtil.getUser().getUserId())
                         .and(story.createdAt.after(LocalDateTime.now().minusDays(1))))
-                .where(story.isValid.notIn(true))
-                .groupBy(story.user)
+                .where(story.isValid.eq(false))
+                .groupBy(story.storyId, story.user)
                 .fetch();
+
 
         Map<Long, MainStoryResponse> groupedStories = new HashMap<>();
 
-        for (Tuple row : stories) {
-            Long userId = row.get(user.userId);
-            String profileUrl = row.get(user.profileUrl);
-            String nickName = row.get(user.nickName);
-            Long storyId = row.get(story.storyId);
-            Boolean isRead = row.get(story).getWatchers().contains(userUtil.getUser().getUserId());
+        for (Story e : stories) {
+            Long userId = e.getUser().getUserId();
+            String profileUrl = e.getUser().getProfileUrl();
+            String nickName = e.getUser().getNickName();
+            Long storyId = e.getStoryId();
+            Boolean isRead = e.getWatchers().contains(userUtil.getUser().getUserId());
 
             Map<Long, Boolean> storyMap = new HashMap<>();
             storyMap.put(storyId, isRead);

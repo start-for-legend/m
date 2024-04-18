@@ -26,4 +26,6 @@ public record UserDetailResponse(
     ) {
         return new UserDetailResponse(userId, nickName, countPost, follower, following, feeds, leels, profileUrl);
     }
+
+    public UserDetailResponse {}
 }

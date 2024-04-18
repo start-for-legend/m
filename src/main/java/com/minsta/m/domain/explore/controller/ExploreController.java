@@ -33,8 +33,8 @@ public class ExploreController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
     })
     @GetMapping
-    public ResponseEntity<ExploreResponse> get(@RequestParam(value = "page", defaultValue = "0") int page) {
-        var response = exploreService.execute(page);
+    public ResponseEntity<ExploreResponse> get(@RequestParam(value = "lastFeedId", defaultValue = "0") int lastFeedId) {
+        var response = exploreService.execute(lastFeedId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

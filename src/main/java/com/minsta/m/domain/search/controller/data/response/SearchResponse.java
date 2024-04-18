@@ -16,4 +16,6 @@ public record SearchResponse(
     public static SearchResponse forKeyword(Map<String, Long> hashtags, Map<UserResponse, Long> userResponses) {
         return new SearchResponse(hashtags, userResponses);
     }
+
+    public SearchResponse {}
 }

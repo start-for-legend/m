@@ -13,4 +13,6 @@ public record ExploreResponse(
     public static ExploreResponse of(List<FeedResponse> feedResponse, List<LeelsResponse> leelsResponse) {
         return new ExploreResponse(feedResponse, leelsResponse);
     }
+
+    public ExploreResponse {}
 }

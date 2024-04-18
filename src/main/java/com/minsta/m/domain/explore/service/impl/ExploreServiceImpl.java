@@ -12,6 +12,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.minsta.m.domain.feed.entity.feed.QFeed.feed;
 import static com.minsta.m.domain.user.entity.QUser.user;
@@ -25,32 +27,36 @@ public class ExploreServiceImpl implements ExploreService {
     private final GetReelsRecommendedService getReelsRecommendedService;
 
     @Override
-    public ExploreResponse execute(int page) {
+    public ExploreResponse execute(int lastFeedId) {
 
-        var res = em
-                .select(Projections.constructor(
-                        FeedResponse.class,
-                        feed.feedId,
-                        Projections.constructor(UserResponse.class, // 중첩 Projections
-                                user.userId,
-                                user.nickName,
-                                user.profileUrl,
-                                user.name),
-                        feed.content,
-                        Expressions.list(feed.hashtags),
-                        Expressions.list(feed.fileUrls)
-                ))
-                .from(feed)
+        var query = em
+                .selectFrom(feed)
                 .leftJoin(feedLike).on(feedLike.feed.feedId.eq(feed.feedId))
                 .leftJoin(user).on(feed.user.userId.eq(user.userId))
+                .where(feed.feedId.gt(lastFeedId))
                 .groupBy(feed.feedId)
                 .orderBy(feedLike.count().desc())
-                .limit(15)
-                .offset((page - 1) * 15L)
-                .fetch();
+                .limit(15);
+
+        List<FeedResponse> results = query.fetch().stream()
+                .map(e -> {
+                    Long feedId = e.getFeedId();
+                    Long userId = e.getUser().getUserId();
+                    String nickName = e.getUser().getNickName();
+                    String profileUrl = e.getUser().getProfileUrl();
+                    String name = e.getUser().getName();
+                    String content = e.getContent();
+                    List<String> hashtags = e.getHashtags();
+                    List<String> fileUrls = e.getFileUrls();
+
+                    UserResponse userResponse = new UserResponse(userId, nickName, profileUrl, name);
+
+                    return new FeedResponse(feedId, userResponse, content, hashtags, fileUrls);
+                })
+                .toList();
 
         var response = getReelsRecommendedService.execute();
 
-        return ExploreResponse.of(res, new ArrayList<>(response.subList(5, response.size())));
+        return ExploreResponse.of(results, new ArrayList<>(response.subList(0, 5)));
     }
 }

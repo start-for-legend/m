@@ -13,4 +13,6 @@ public record FeedCommentResponse(
     public static FeedCommentResponse of(Long feedCommentId, UserResponse user, String content, int heartCount, boolean modify) {
         return new FeedCommentResponse(feedCommentId, user, content, heartCount, modify);
     }
+
+    public FeedCommentResponse {}
 }

@@ -12,4 +12,6 @@ public record MainResponse(
     public static MainResponse of(List<MainStoryResponse> mainStoryResponses, List<FeedResponse> feedResponses) {
         return new MainResponse(mainStoryResponses, feedResponses);
     }
+
+    public MainResponse {}
 }
