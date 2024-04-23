@@ -50,7 +50,7 @@ public class GetUserDetailServiceImpl implements GetUserDetailService {
         return em
                 .select(feed.feedId, feed.fileUrls)
                 .from(feed)
-                .where(feed.user.userId.eq(userUtil.getUser().getUserId()))
+                .where(feed.user.userId.eq(userId))
                 .orderBy(feed.createdAt.desc())
                 .fetch()
                 .stream()
@@ -63,7 +63,7 @@ public class GetUserDetailServiceImpl implements GetUserDetailService {
         return em
                 .select(leels.leelsId, leels.leelsUrl)
                 .from(leels)
-                .where(leels.user.userId.eq(userUtil.getUser().getUserId()))
+                .where(leels.user.userId.eq(userId))
                 .orderBy(leels.createdAt.desc())
                 .fetch()
                 .stream()
