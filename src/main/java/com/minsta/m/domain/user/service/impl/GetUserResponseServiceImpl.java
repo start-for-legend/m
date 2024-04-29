@@ -8,6 +8,8 @@ import com.minsta.m.global.util.UserUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,8 +42,7 @@ public class GetUserResponseServiceImpl implements GetUserResponseService {
         );
     }
 
-    private List<Map<Long, String>> getFeedsList() {
-
+    private List<?> getFeedsList() {
         return em
                 .select(feed.feedId, feed.fileUrls)
                 .from(feed)
@@ -49,8 +50,12 @@ public class GetUserResponseServiceImpl implements GetUserResponseService {
                 .orderBy(feed.createdAt.desc())
                 .fetch()
                 .stream()
-                .map(tuple -> Map.of(tuple.get(feed.feedId), tuple.get(feed.fileUrls.get(0))))
-                .collect(Collectors.toList());
+                .map(tuple -> {
+                    Object rawUrls = tuple.get(feed.fileUrls);
+                    List<String> urlList = rawUrls != null ? Arrays.asList(((String) rawUrls).split(",")) : Collections.emptyList();
+                    return Map.of(tuple.get(feed.feedId), urlList);
+                })
+                .toList();
     }
 
     private List<Map<Long, String>> getLeelsList() {

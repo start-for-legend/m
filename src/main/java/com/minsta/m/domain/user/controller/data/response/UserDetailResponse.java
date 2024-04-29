@@ -9,7 +9,7 @@ public record UserDetailResponse(
         int countPost,
         int follower,
         int following,
-        List<Map<Long, String>> feeds,
+        List<?> feeds,
         List<Map<Long, String>> leels,
         String profileUrl
 ) {
@@ -20,7 +20,7 @@ public record UserDetailResponse(
             int countPost,
             int follower,
             int following,
-            List<Map<Long, String>> feeds,
+            List<?> feeds,
             List<Map<Long, String>> leels,
             String profileUrl
     ) {
