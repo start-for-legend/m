@@ -33,7 +33,6 @@ public class Feed extends BaseEntity {
     @Column(name = "hashtags")
     @ElementCollection
     @CollectionTable(name = "feed_hashtags", joinColumns = @JoinColumn(name = "feed_id"))
-    @Size(max = 3)
     @NotEmpty
     @Builder.Default
     private List<String> hashtags = new ArrayList<>();
@@ -41,7 +40,6 @@ public class Feed extends BaseEntity {
     @Column(name = "fireUrls")
     @ElementCollection
     @CollectionTable(name = "feed_file_urls", joinColumns = @JoinColumn(name = "feed_id"))
-    @Size(max = 3)
     @NotEmpty
     @Builder.Default
     private List<String> fileUrls = new ArrayList<>();
