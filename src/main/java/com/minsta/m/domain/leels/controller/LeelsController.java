@@ -3,6 +3,7 @@ package com.minsta.m.domain.leels.controller;
 import com.minsta.m.domain.leels.controller.data.request.CreateLeelsRequest;
 import com.minsta.m.domain.leels.controller.data.response.LeelsResponse;
 import com.minsta.m.domain.leels.service.leels.*;
+import com.minsta.m.global.entity.HeartValidResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,6 +32,7 @@ public class LeelsController {
     private final CancelLeelsLikeService cancelLeelsLikeService;
     private final GetReelsRecommendedService getReelsRecommnededService;
     private final LeelsDetailService leelsDetailService;
+    private final LeelsHeartValidService leelsHeartValidService;
 
 
     @Operation(summary = "create leels", description = "릴스 생성")
@@ -122,6 +124,21 @@ public class LeelsController {
     @GetMapping("/{leelsId}")
     public ResponseEntity<LeelsResponse> getLeelsById(@PathVariable Long leelsId) {
         var response = leelsDetailService.execute(leelsId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "get heart valid leels", description = "릴스 좋아요 여부 체크")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "릴스 좋아요 여부 가져옴",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = HeartValidResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping("/valid/{leelsId}")
+    public ResponseEntity<HeartValidResponse> isValidLeels(@PathVariable Long leelsId) {
+        var response = leelsHeartValidService.execute(leelsId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

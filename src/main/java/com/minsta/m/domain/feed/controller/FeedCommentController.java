@@ -4,6 +4,7 @@ import com.minsta.m.domain.feed.controller.data.request.CreateFeedCommentRequest
 import com.minsta.m.domain.feed.controller.data.request.EditFeedCommentRequest;
 import com.minsta.m.domain.feed.controller.data.response.FeedCommentResponse;
 import com.minsta.m.domain.feed.service.feedcomment.*;
+import com.minsta.m.global.entity.HeartValidResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,6 +33,7 @@ public class FeedCommentController {
     private final EditFeedCommentService editFeedCommentService;
     private final CommentCancelLikeService commentCancelLikeService;
     private final GetCommentsByIdService getCommentsByIdService;
+    private final FeedCommentHeartValidService feedCommentHeartValidService;
 
     @Operation(summary = "create feed comment", description = "피드 댓글 생성")
     @ApiResponses({
@@ -146,6 +148,24 @@ public class FeedCommentController {
             @RequestParam(name = "lastCommentId", defaultValue = "0") Long lastCommentId
     ) {
         var response = getCommentsByIdService.execute(feedId, lastCommentId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "get heart valid feed comment", description = "피드 댓글 좋아요 여부 체크")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "피드 댓글 좋아요 여부 가져옴",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = HeartValidResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping("/valid/{feedCommentId}")
+    public ResponseEntity<HeartValidResponse> isValidFeedComment(
+            @PathVariable Long feedId,
+            @PathVariable Long feedCommentId
+    ) {
+        var response = feedCommentHeartValidService.execute(feedId, feedCommentId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
