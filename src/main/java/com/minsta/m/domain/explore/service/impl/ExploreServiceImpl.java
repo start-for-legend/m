@@ -56,7 +56,10 @@ public class ExploreServiceImpl implements ExploreService {
                 .toList();
 
         var response = getReelsRecommendedService.execute();
+        if (response.size() > 5) {
+            response = response.subList(0, 5);
+        }
 
-        return ExploreResponse.of(results, new ArrayList<>(response.subList(0, 5)));
+        return ExploreResponse.of(results, response);
     }
 }
