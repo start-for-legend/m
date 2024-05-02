@@ -1,5 +1,7 @@
 package com.minsta.m.domain.user.service.impl;
 
+import com.minsta.m.domain.user.controller.data.response.FeedMapResponse;
+import com.minsta.m.domain.user.controller.data.response.LeelsMapResponse;
 import com.minsta.m.domain.user.controller.data.response.UserDetailResponse;
 import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.domain.user.service.GetUserResponseService;
@@ -8,11 +10,7 @@ import com.minsta.m.global.util.UserUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.minsta.m.domain.feed.entity.feed.QFeed.feed;
 import static com.minsta.m.domain.follow.entity.QFollow.follow;
@@ -42,7 +40,7 @@ public class GetUserResponseServiceImpl implements GetUserResponseService {
         );
     }
 
-    private List<?> getFeedsList() {
+    private List<FeedMapResponse> getFeedsList() {
         return em
                 .select(feed.feedId, feed.fileUrls)
                 .from(feed)
@@ -50,15 +48,11 @@ public class GetUserResponseServiceImpl implements GetUserResponseService {
                 .orderBy(feed.createdAt.desc())
                 .fetch()
                 .stream()
-                .map(tuple -> {
-                    Object rawUrls = tuple.get(feed.fileUrls);
-                    List<String> urlList = rawUrls != null ? Arrays.asList(((String) rawUrls).split(",")) : Collections.emptyList();
-                    return Map.of(tuple.get(feed.feedId), urlList);
-                })
+                .map(tuple -> FeedMapResponse.of(tuple.get(feed.feedId), tuple.get(feed.fileUrls.get(0))))
                 .toList();
     }
 
-    private List<Map<Long, String>> getLeelsList() {
+    private List<LeelsMapResponse> getLeelsList() {
 
         return em
                 .select(leels.leelsId, leels.leelsUrl)
@@ -67,8 +61,8 @@ public class GetUserResponseServiceImpl implements GetUserResponseService {
                 .orderBy(leels.createdAt.desc())
                 .fetch()
                 .stream()
-                .map(tuple -> Map.of(tuple.get(leels.leelsId), tuple.get(leels.leelsUrl)))
-                .collect(Collectors.toList());
+                .map(tuple -> LeelsMapResponse.of(tuple.get(leels.leelsId), tuple.get(leels.leelsUrl)))
+                .toList();
     }
 
     private int getFollower(Long userId) {

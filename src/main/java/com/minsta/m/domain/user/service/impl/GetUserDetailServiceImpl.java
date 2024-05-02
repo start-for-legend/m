@@ -1,5 +1,7 @@
 package com.minsta.m.domain.user.service.impl;
 
+import com.minsta.m.domain.user.controller.data.response.FeedMapResponse;
+import com.minsta.m.domain.user.controller.data.response.LeelsMapResponse;
 import com.minsta.m.domain.user.controller.data.response.UserDetailResponse;
 import com.minsta.m.domain.user.entity.User;
 import com.minsta.m.domain.user.repository.UserRepository;
@@ -10,10 +12,7 @@ import com.minsta.m.global.error.ErrorCode;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static com.minsta.m.domain.feed.entity.feed.QFeed.feed;
 import static com.minsta.m.domain.follow.entity.QFollow.follow;
@@ -30,7 +29,7 @@ public class GetUserDetailServiceImpl implements GetUserDetailService {
     public UserDetailResponse execute(Long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new BasicException(ErrorCode.USER_NOT_FOUND));
-        List<?> feeds = getFeedsList(user.getUserId());
+        List<FeedMapResponse> feeds = getFeedsList(user.getUserId());
 
         return UserDetailResponse.of(
                 user.getUserId(),
@@ -44,7 +43,7 @@ public class GetUserDetailServiceImpl implements GetUserDetailService {
         );
     }
 
-    private List<?> getFeedsList(Long userId) {
+    private List<FeedMapResponse> getFeedsList(Long userId) {
         return em
                 .select(feed.feedId, feed.fileUrls)
                 .from(feed)
@@ -52,15 +51,11 @@ public class GetUserDetailServiceImpl implements GetUserDetailService {
                 .orderBy(feed.createdAt.desc())
                 .fetch()
                 .stream()
-                .map(tuple -> {
-                    Object rawUrls = tuple.get(feed.fileUrls);
-                    List<String> urlList = rawUrls != null ? Arrays.asList(((String) rawUrls).split(",")) : Collections.emptyList();
-                    return Map.of(tuple.get(feed.feedId), urlList.get(0));
-                })
+                .map(tuple -> FeedMapResponse.of(tuple.get(feed.feedId), tuple.get(feed.fileUrls.get(0))))
                 .toList();
     }
 
-    private List<Map<Long, String>> getLeelsList(Long userId) {
+    private List<LeelsMapResponse> getLeelsList(Long userId) {
 
         return em
                 .select(leels.leelsId, leels.leelsUrl)
@@ -69,7 +64,7 @@ public class GetUserDetailServiceImpl implements GetUserDetailService {
                 .orderBy(leels.createdAt.desc())
                 .fetch()
                 .stream()
-                .map(tuple -> Map.of(tuple.get(leels.leelsId), tuple.get(leels.leelsUrl)))
+                .map(tuple -> LeelsMapResponse.of(tuple.get(leels.leelsId), tuple.get(leels.leelsUrl)))
                 .toList();
     }
 
