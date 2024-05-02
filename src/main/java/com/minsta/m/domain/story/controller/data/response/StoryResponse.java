@@ -17,4 +17,6 @@ public record StoryResponse(
     public static StoryResponse notOwnerOf(String url, LocalDateTime createdAt) {
         return new StoryResponse(url, new ArrayList<>(), createdAt);
     }
+
+    public StoryResponse {}
 }

@@ -1,9 +1,13 @@
 package com.minsta.m.domain.leels.controller;
 
 import com.minsta.m.domain.leels.controller.data.request.CreateLeelsCommentRequest;
-import com.minsta.m.domain.leels.service.*;
+import com.minsta.m.domain.leels.controller.data.response.LeelsCommentResponse;
+import com.minsta.m.domain.leels.service.leelscomment.*;
+import com.minsta.m.global.entity.HeartValidResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,10 +17,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-@Tag(name = "http://10.53.68.120:80/leels/{leelsId} 하위 API", description = "leels comment 관련 API")
+
+@Tag(name = "http://10.53.68.120:80/leels-comment/{leelsId} 하위 API", description = "leels comment 관련 API")
 @RestController
-@RequestMapping("/leels/{leelsId}")
+@RequestMapping("/leels-comment/{leelsId}")
 @RequiredArgsConstructor
 public class LeelsCommentController {
 
@@ -25,6 +31,8 @@ public class LeelsCommentController {
     private final CreateLeelsCommentLikeService createLeelsCommentLikeService;
     private final UpdateLeelsCommentService updateLeelsCommentService;
     private final LeelsCommentLikeCancelService leelsCommentLikeCancelService;
+    private final GetCommentListByLeelsIdService getCommentListByLeelsIdService;
+    private final LeelsCommentHeartValidService leelsCommentHeartValidService;
 
     @Operation(summary = "Create Comment", description = "릴스에 대한 댓글 생성")
     @ApiResponses({
@@ -117,5 +125,43 @@ public class LeelsCommentController {
     ) {
         leelsCommentLikeCancelService.execute(leelsId, leelsCommentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Operation(summary = "get comment list by leels id", description = "릴스 아이디로 댓글 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "get Comment",
+                    headers = @Header(name = "accessToken",description = "accessToken Value", required = true),
+                    content = @Content(schema = @Schema(implementation = LeelsCommentResponse.class)
+                    )),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Invalid Token, Token Expired"),
+            @ApiResponse(responseCode = "404", description = "leels not found"),
+            @ApiResponse(responseCode = "500", description = "Server Error")
+    })
+    @GetMapping
+    public ResponseEntity<List<LeelsCommentResponse>> getComments(
+            @PathVariable Long leelsId,
+            @RequestParam(name = "lastCommentId", defaultValue = "0") Long lastCommentId
+    ) {
+        var response = getCommentListByLeelsIdService.execute(leelsId, lastCommentId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "get heart valid leels comment", description = "릴스 댓글 좋아요 여부 체크")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "릴스 댓글 좋아요 여부 가져옴",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = HeartValidResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping("/valid/{leelsCommentId}")
+    public ResponseEntity<HeartValidResponse> isValidLeels(
+            @PathVariable Long leelsId,
+            @PathVariable Long leelsCommentId
+    ) {
+        var response = leelsCommentHeartValidService.execute(leelsId, leelsCommentId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

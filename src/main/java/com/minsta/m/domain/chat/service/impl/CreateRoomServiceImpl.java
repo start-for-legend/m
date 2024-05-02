@@ -27,8 +27,12 @@ public class CreateRoomServiceImpl implements CreateRoomService {
     @Override
     public CreateRoomResponse execute(Long otherUserId) {
 
+
         User otherUser = userRepository.findById(otherUserId)
-                .orElseThrow(UserNotFoundException::new);
+                    .orElseThrow(UserNotFoundException::new);
+        if (userUtil.getUser().equals(otherUser)) {
+            throw new BasicException(ErrorCode.NOT_CREATE_ROOM_MYSELF);
+        }
         if (chatRoomRepository.existsByUserAndOtherUserId(userUtil.getUser(), otherUser.getUserId())) {
             throw new BasicException(ErrorCode.EXIST_CHAT_ROOM);
         }

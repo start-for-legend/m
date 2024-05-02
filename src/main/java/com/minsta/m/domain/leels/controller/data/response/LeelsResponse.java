@@ -1,6 +1,6 @@
 package com.minsta.m.domain.leels.controller.data.response;
 
-import com.minsta.m.domain.user.entity.User;
+import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class LeelsResponse {
 
     private Long leelsId;
 
-    private User author;
+    private UserResponse author;
 
     private String content;
 
@@ -22,9 +22,6 @@ public class LeelsResponse {
     private List<String> hashtags = new ArrayList<>();
 
     private String leelsUrl;
-
-    @Builder.Default
-    private List<LeelsCommentResponse> leelsCommentResponses = new ArrayList<>();
 
     private int heartCount;
 }

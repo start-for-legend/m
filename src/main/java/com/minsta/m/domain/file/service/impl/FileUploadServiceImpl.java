@@ -8,7 +8,6 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.minsta.m.domain.file.controller.data.response.FileUploadResponse;
 import com.minsta.m.domain.file.exception.FileUploadFailedException;
 import com.minsta.m.domain.file.exception.InvalidFormatFileException;
-import com.minsta.m.domain.file.exception.NotAllowedFileException;
 import com.minsta.m.domain.file.service.FileUploadService;
 import com.minsta.m.global.annotation.ServiceWithTransactional;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -30,17 +27,11 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     private final AmazonS3 amazonS3;
 
-    private static final List<String> ALLOWED_MIME_TYPES = Arrays.asList("image/jpg", "image/png", "image/gif", "audio/mp4");
-
     @Override
     public FileUploadResponse execute(MultipartFile file) {
         String fileName = createFileName(file.getOriginalFilename());
 
         String contentType = file.getContentType();
-
-        if(!ALLOWED_MIME_TYPES.contains(contentType)) {
-            throw new NotAllowedFileException();
-        }
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
 

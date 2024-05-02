@@ -43,7 +43,7 @@ public class NoticeController {
             @ApiResponse(responseCode = "401", description = "Token InValid, Token Expired"),
             @ApiResponse(responseCode = "500", description = "Server Error"),
     })
-    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SseEmitter> getNotice(
             @RequestHeader(value = "last-notice-id", required = false, defaultValue = "") Long lastEventId
     ) {

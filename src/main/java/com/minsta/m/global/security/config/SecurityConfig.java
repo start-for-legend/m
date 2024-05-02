@@ -46,27 +46,50 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
+
+                .requestMatchers("/user/**").permitAll()
+
                 .requestMatchers(HttpMethod.PATCH, "/auth").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/auth").authenticated()
+
                 .requestMatchers("/leels/**").authenticated()
+                .requestMatchers("/leels-comment/**").authenticated()
+                .requestMatchers("/leels-comment-reply/**").authenticated()
+
                 .requestMatchers(HttpMethod.POST, "/file").authenticated()
+
                 .requestMatchers("/chat/**").permitAll() //TODO: Stomp security
                 .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/sub/**").permitAll() //TODO: Stomp security
                 .requestMatchers("/pub/**").permitAll() //TODO: Stomp security
+
                 .requestMatchers(HttpMethod.POST, "/room/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/room/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/room/**").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/room/**").authenticated()
+
                 .requestMatchers(HttpMethod.GET, "/notice/**").authenticated()
                 .requestMatchers(HttpMethod.PATCH, "/notice/**").authenticated()
+
                 .requestMatchers(HttpMethod.POST, "/follow/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/follow/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/follow/**").authenticated()
+
                 .requestMatchers(HttpMethod.POST, "/story/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/story/**").authenticated()
+
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                .requestMatchers("/feed/**").authenticated()
+                .requestMatchers("/feed-comment/**").authenticated()
+                .requestMatchers("/feed-comment-reply/**").authenticated()
+
+                .requestMatchers(HttpMethod.GET, "/search/**").authenticated()
+
+                .requestMatchers(HttpMethod.GET, "/main").authenticated()
+
+                .requestMatchers(HttpMethod.GET, "/explore/**").authenticated()
+
                 .anyRequest().denyAll();
 
         http

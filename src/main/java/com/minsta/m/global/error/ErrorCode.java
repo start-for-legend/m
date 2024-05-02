@@ -24,7 +24,6 @@ public enum ErrorCode {
 
     //AWS
     FILE_UPLOAD_FAIL("파일 업로드에 실패했습니다.", 500),
-    NOT_ALLOWED_FILE("허용되지 않은 파일 형식입니다.", 400),
     INVALID_FORMAT_FILE("잘못된 형식의 파일입니다.", 400),
 
     //Leels
@@ -48,12 +47,24 @@ public enum ErrorCode {
     PERMISSION_DENIED_CHAT_ROOM("채팅방에 속하지 않음", 403),
     PERMISSION_DENIED_DELETE_CHAT("채팅 작성자가 아님", 403),
     CHAT_NOT_FOUND("채팅이 없음", 404),
+    NOT_CREATE_ROOM_MYSELF("자기 자신은 영원한 친구입니다", 403),
 
     //FOLLOW
     NOT_FOLLOW_MYSELF("자기 자신은 영원한 친구입니다", 403),
 
     //STORY
-    STORY_NOT_FOUND("스토리가 없습니다", 404);
+    STORY_NOT_FOUND("스토리가 없습니다", 404),
+
+    //FEED
+    FEED_NOT_FOUND("피드가 없습니다", 404),
+    FEED_NOT_LIKE("좋아요를 누르지 않음", 403),
+    FEED_EXIST_LIKE("좋아요를 이미 누름", 403),
+    NOT_OWNER_FEED("피드 주인이 아님", 403),
+    FEED_COMMENT_NOT_FOUND("댓글이 없음",404),
+    FEED_COMMENT_NOT_OWNER("댓글의 주인이 아님", 403),
+    FEED_COMMENT_REPLY_NOT_FOUND("답글이 없음",404),
+    FEED_COMMENT_REPLY_NOT_OWNER("답글의 주인이아님",403);
+
 
     private final String message;
     private final int status;

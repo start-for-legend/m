@@ -24,6 +24,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        use_sql_comments: true
 
   data:
     redis:
@@ -53,3 +55,5 @@ cloud:
       url: ${AWS_URL}
     stack:
       auto: false
+
+url: ${SERVER_URL}

@@ -2,7 +2,7 @@ package com.minsta.m.domain.user.controller;
 
 import com.minsta.m.domain.user.controller.data.request.*;
 import com.minsta.m.domain.user.controller.data.response.LoginResponse;
-import com.minsta.m.domain.user.controller.data.response.UserResponse;
+import com.minsta.m.domain.user.controller.data.response.UserDetailResponse;
 import com.minsta.m.domain.user.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -31,6 +31,7 @@ public class UserController {
     private final SmsAuthenticationService smsAuthenticationService;
     private final GetUserResponseService getUserResponseService;
     private final SetProfileImageService setProfileImageService;
+    private final GetUserDetailService getUserDetailService;
 
 
 
@@ -90,13 +91,15 @@ public class UserController {
     @Operation(summary = "get user response", description = "로그인된 유저 정보 가져오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    headers = @Header(name = "accessToken", description = "accessToken value", required = true)),
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = UserDetailResponse.class))
+            ),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "401", description = "Token InValid, Token Expired"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
     })
     @GetMapping
-    public ResponseEntity<UserResponse> getUserResponse() {
+    public ResponseEntity<UserDetailResponse> getUserResponse() {
         var response = getUserResponseService.execute();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -113,5 +116,21 @@ public class UserController {
     public ResponseEntity<HttpStatus> setProfile(@RequestBody @Valid AwsUrlRequest awsUrlRequest) {
         setProfileImageService.execute(awsUrlRequest);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "get user response by user id", description = "유저 아이디로 정보 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = UserDetailResponse.class))
+            ),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "401", description = "Token InValid, Token Expired"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDetailResponse> getOtherUser(@PathVariable Long userId) {
+        var response = getUserDetailService.execute(userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

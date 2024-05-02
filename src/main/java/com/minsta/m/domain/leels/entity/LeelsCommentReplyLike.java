@@ -23,12 +23,6 @@ public class LeelsCommentReplyLike {
     private User user;
 
     @ManyToOne
-    @MapsId("replyUserId")
-    @JoinColumn(name = "reply_user_id")
-    private User replyUser;
-
-
-    @ManyToOne
     @MapsId("leelsId")
     @JoinColumn(name = "leels_id")
     private Leels leels;
@@ -37,4 +31,9 @@ public class LeelsCommentReplyLike {
     @MapsId("leelsCommentId")
     @JoinColumn(name = "leels_comment_id")
     private LeelsComment leelsComment;
+
+    @ManyToOne
+    @MapsId("leelsCommentReplyId")
+    @JoinColumn(name = "leels_comment_reply_id")
+    private LeelsCommentReply leelsCommentReply;
 }
