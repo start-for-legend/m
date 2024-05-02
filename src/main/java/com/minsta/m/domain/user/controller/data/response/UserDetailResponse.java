@@ -9,8 +9,8 @@ public record UserDetailResponse(
         int countPost,
         int follower,
         int following,
-        List<?> feeds,
-        List<Map<Long, String>> leels,
+        List<FeedMapResponse> feeds,
+        List<LeelsMapResponse> leels,
         String profileUrl
 ) {
 
@@ -20,8 +20,8 @@ public record UserDetailResponse(
             int countPost,
             int follower,
             int following,
-            List<?> feeds,
-            List<Map<Long, String>> leels,
+            List<FeedMapResponse> feeds,
+            List<LeelsMapResponse> leels,
             String profileUrl
     ) {
         return new UserDetailResponse(userId, nickName, countPost, follower, following, feeds, leels, profileUrl);

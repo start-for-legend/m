@@ -4,6 +4,8 @@ import com.minsta.m.domain.follow.controller.data.response.RecommendedFollowerRe
 import com.minsta.m.domain.follow.service.FollowCancelService;
 import com.minsta.m.domain.follow.service.FollowRecommendedService;
 import com.minsta.m.domain.follow.service.FollowService;
+import com.minsta.m.global.entity.HeartValidResponse;
+import com.minsta.m.domain.follow.service.FollowValidService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,6 +27,7 @@ public class FollowController {
     private final FollowService followService;
     private final FollowCancelService followCancelService;
     private final FollowRecommendedService followRecommendedService;
+    private final FollowValidService followValidService;
 
     @Operation(summary = "follow", description = "팔로우하기")
     @ApiResponses({
@@ -66,6 +69,12 @@ public class FollowController {
     @GetMapping
     public ResponseEntity<List<RecommendedFollowerResponse>> getFollow() {
         var response = followRecommendedService.execute();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/valid/{userId}")
+    public ResponseEntity<HeartValidResponse> isValidFollow(@PathVariable Long userId) {
+        var response = followValidService.execute(userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

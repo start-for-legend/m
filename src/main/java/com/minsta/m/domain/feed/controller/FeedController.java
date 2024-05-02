@@ -3,6 +3,7 @@ package com.minsta.m.domain.feed.controller;
 import com.minsta.m.domain.feed.controller.data.request.CreateFeedRequest;
 import com.minsta.m.domain.feed.controller.data.response.FeedResponse;
 import com.minsta.m.domain.feed.service.feed.*;
+import com.minsta.m.global.entity.HeartValidResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,7 @@ public class FeedController {
     private final FeedLikeService feedLikeService;
     private final FeedLikeCancelService feedLikeCancelServicempl;
     private final DeleteFeedService deleteFeedService;
+    private final FeedHeartValidService feedHeartValidService;
 
     @Operation(summary = "create feed", description = "피드 생성")
     @ApiResponses({
@@ -101,5 +104,20 @@ public class FeedController {
     public ResponseEntity<HttpStatus> deleteFeed(@PathVariable Long feedId) {
         deleteFeedService.execute(feedId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Operation(summary = "get heart valid feed", description = "피드 좋아요 여부 체크")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "피드 좋아요 여부 가져옴",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = HeartValidResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping("/valid/{feedId}")
+    public ResponseEntity<HeartValidResponse> isValidFeed(@PathVariable Long feedId) {
+        var response = feedHeartValidService.execute(feedId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
