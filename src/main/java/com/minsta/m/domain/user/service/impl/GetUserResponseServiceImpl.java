@@ -10,6 +10,7 @@ import com.minsta.m.global.util.UserUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.minsta.m.domain.feed.entity.feed.QFeed.feed;
@@ -48,7 +49,11 @@ public class GetUserResponseServiceImpl implements GetUserResponseService {
                 .orderBy(feed.createdAt.desc())
                 .fetch()
                 .stream()
-                .map(tuple -> FeedMapResponse.of(tuple.get(feed.feedId), tuple.get(feed.fileUrls.get(0))))
+                .map(tuple -> {
+                    List<Object> list = Collections.singletonList(tuple.get(feed.fileUrls));
+                    String firstUrl = (String) list.get(0);
+                    return FeedMapResponse.of(tuple.get(feed.feedId), firstUrl);
+                })
                 .toList();
     }
 
