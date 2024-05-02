@@ -2,21 +2,14 @@ version: "3"
 
 services:
 
-  app:
-    restart: always
-    image: blohny/minsta:latest
-    container_name: "app"
-    env_file: .env
-    ports:
-      - "9071:9071"
-
   redis:
     image: redis:latest
     container_name: "redis"
-    command: --requirepass ${REDIS_PASS}
     env_file: .env
     ports:
       - "6379:6379"
+    networks:
+      - minsta
 
   mysql:
     image: mysql:latest
@@ -26,6 +19,21 @@ services:
       - db:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - minsta
+
+  app:
+    restart: always
+    image: blohny/minsta:latest
+    container_name: "app"
+    env_file: .env
+    ports:
+      - "9071:9071"
+    networks:
+      - minsta
 
 volumes:
   db:
+
+networks:
+  minsta:
