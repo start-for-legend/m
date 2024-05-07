@@ -35,9 +35,9 @@ public class LeelsDetailServiceImpl implements LeelsDetailService {
                 .build();
     }
 
-    private int getHeartCount(Long... id) {
+    private int getHeartCount(Long id) {
         return em.selectFrom(leelsLike)
-                .where(leelsLike.leels.leelsId.eq(id[0]))
+                .where(leelsLike.leels.leelsId.eq(id))
                 .fetch().size();
     }
 }

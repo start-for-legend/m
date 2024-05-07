@@ -17,12 +17,12 @@ public class FeedLike {
     @EmbeddedId
     private FeedLikeEmbedded feedLikeEmbedded;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @MapsId("feedId")
     @JoinColumn(name = "feed_id")
     private Feed feed;

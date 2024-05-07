@@ -27,4 +27,5 @@ public class FeedResponse {
     @Builder.Default
     private List<String> fileUrls = new ArrayList<>();
 
+    private int heartCount;
 }
