@@ -51,7 +51,7 @@ public class ExploreServiceImpl implements ExploreService {
 
                     UserResponse userResponse = new UserResponse(userId, nickName, profileUrl, name);
 
-                    return new FeedResponse(feedId, userResponse, content, hashtags, fileUrls);
+                    return new FeedResponse(feedId, userResponse, content, hashtags, fileUrls, getHeartCount(e.getFeedId()));
                 })
                 .toList();
 
@@ -61,5 +61,11 @@ public class ExploreServiceImpl implements ExploreService {
         }
 
         return ExploreResponse.of(results, response);
+    }
+
+    private int getHeartCount(Long id) {
+        return em.selectFrom(feedLike)
+                .where(feedLike.feedLikeEmbedded.feedId.eq(id))
+                .fetch().size();
     }
 }
