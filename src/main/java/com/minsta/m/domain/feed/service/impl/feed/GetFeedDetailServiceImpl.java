@@ -8,13 +8,18 @@ import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import com.minsta.m.global.annotation.ReadOnlyService;
 import com.minsta.m.global.error.BasicException;
 import com.minsta.m.global.error.ErrorCode;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+
+import static com.minsta.m.domain.feed.entity.feed.QFeedLike.feedLike;
+import static com.minsta.m.domain.leels.entity.QLeelsLike.leelsLike;
 
 @ReadOnlyService
 @RequiredArgsConstructor
 public class GetFeedDetailServiceImpl implements GetFeedDetailService {
 
     private final FeedRepository feedRepository;
+    private final JPAQueryFactory em;
 
     @Override
     public FeedResponse execute(Long feedId) {
@@ -27,6 +32,13 @@ public class GetFeedDetailServiceImpl implements GetFeedDetailService {
                 .content(feed.getContent())
                 .hashtags(feed.getHashtags())
                 .fileUrls(feed.getFileUrls())
+                .heartCount(getHeartCount(feedId))
                 .build();
+    }
+
+    private int getHeartCount(Long id) {
+        return em.selectFrom(feedLike)
+                .where(feedLike.feedLikeEmbedded.feedId.eq(id))
+                .fetch().size();
     }
 }

@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeelsLike {
+public class
+LeelsLike {
 
     @EmbeddedId
     private LeelsLikeEmbedded likeEmbedded;
