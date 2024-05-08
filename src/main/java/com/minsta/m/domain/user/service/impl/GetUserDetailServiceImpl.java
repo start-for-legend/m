@@ -34,6 +34,7 @@ public class GetUserDetailServiceImpl implements GetUserDetailService {
 
         return UserDetailResponse.of(
                 user.getUserId(),
+                user.getName(),
                 user.getNickName(),
                 feeds.size(),
                 getFollower(user.getUserId()),

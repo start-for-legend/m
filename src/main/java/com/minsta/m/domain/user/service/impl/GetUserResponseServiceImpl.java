@@ -31,6 +31,7 @@ public class GetUserResponseServiceImpl implements GetUserResponseService {
 
         return UserDetailResponse.of(
                 user.getUserId(),
+                user.getName(),
                 user.getNickName(),
                 0,
                 getFollower(user.getUserId()),

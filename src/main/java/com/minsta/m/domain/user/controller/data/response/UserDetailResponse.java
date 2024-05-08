@@ -5,6 +5,7 @@ import java.util.Map;
 
 public record UserDetailResponse(
         Long userId,
+        String name,
         String nickName,
         int countPost,
         int follower,
@@ -16,6 +17,7 @@ public record UserDetailResponse(
 
     public static UserDetailResponse of(
             Long userId,
+            String name,
             String nickName,
             int countPost,
             int follower,
@@ -24,7 +26,7 @@ public record UserDetailResponse(
             List<LeelsMapResponse> leels,
             String profileUrl
     ) {
-        return new UserDetailResponse(userId, nickName, countPost, follower, following, feeds, leels, profileUrl);
+        return new UserDetailResponse(userId, name, nickName, countPost, follower, following, feeds, leels, profileUrl);
     }
 
     public UserDetailResponse {}
