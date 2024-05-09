@@ -60,6 +60,7 @@ public class MainResponseServiceImpl implements MainResponseService {
                         .content(feed1.getContent())
                         .hashtags(feed1.getHashtags())  // Assuming you have a method to extract hashtags
                         .fileUrls(feed1.getFileUrls())  // Assuming you have a method to extract file URLs
+                        .heartCount(getHeartCount(feed1.getFeedId()))
                         .build())
                 .toList();
     }
@@ -101,5 +102,11 @@ public class MainResponseServiceImpl implements MainResponseService {
         }
 
         return new ArrayList<>(groupedStories.values());
+    }
+
+    private int getHeartCount(Long id) {
+        return em.selectFrom(feedLike)
+                .where(feedLike.feedLikeEmbedded.feedId.eq(id))
+                .fetch().size();
     }
 }
