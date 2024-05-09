@@ -56,6 +56,6 @@ public class GetReplyCommentsByIdServiceImpl implements GetReplyCommentsByIdServ
     }
 
     private UserResponse getUser(User user) {
-        return UserResponse.of(user.getUserId(), user.getNickName(), user.getNickName(), user.getProfileUrl());
+        return UserResponse.of(user.getUserId(), user.getNickName(), user.getProfileUrl(), user.getName());
     }
 }
