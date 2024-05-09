@@ -1,13 +1,13 @@
 package com.minsta.m.domain.follow.controller;
 
 import com.minsta.m.domain.follow.controller.data.response.RecommendedFollowerResponse;
-import com.minsta.m.domain.follow.service.FollowCancelService;
-import com.minsta.m.domain.follow.service.FollowRecommendedService;
-import com.minsta.m.domain.follow.service.FollowService;
+import com.minsta.m.domain.follow.service.*;
+import com.minsta.m.domain.user.controller.data.response.UserResponse;
 import com.minsta.m.global.entity.HeartValidResponse;
-import com.minsta.m.domain.follow.service.FollowValidService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,6 +28,8 @@ public class FollowController {
     private final FollowCancelService followCancelService;
     private final FollowRecommendedService followRecommendedService;
     private final FollowValidService followValidService;
+    private final GetFollowerListService getFollowerListService;
+    private final GetFollowingListService getFollowingListService;
 
     @Operation(summary = "follow", description = "팔로우하기")
     @ApiResponses({
@@ -60,7 +62,8 @@ public class FollowController {
     @Operation(summary = "get recommend follow", description = "팔로우 추천 목록 가져오기")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    headers = @Header(name = "accessToken", description = "accessToken value", required = true)),
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = RecommendedFollowerResponse.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
             @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
             @ApiResponse(responseCode = "404", description = "User not found exception"),
@@ -72,9 +75,56 @@ public class FollowController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "get follow valid", description = "팔로우 했는지 안했는지 여부 판단")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true)),
+            @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "404", description = "User not found exception"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
     @GetMapping("/valid/{userId}")
     public ResponseEntity<HeartValidResponse> isValidFollow(@PathVariable Long userId) {
         var response = followValidService.execute(userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "get follower follow", description = "팔로워 목록 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "404", description = "User not found exception"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping("/follower/{userId}")
+    public ResponseEntity<List<UserResponse>> getFollowerList(
+            @PathVariable Long userId,
+            @RequestParam(name = "lastUserId", defaultValue = "0") Long lastUserId
+    ) {
+        var response = getFollowerListService.execute(userId, lastUserId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(summary = "get following list", description = "팔로잉 목록 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    headers = @Header(name = "accessToken", description = "accessToken value", required = true),
+                    content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request, 잘못된 요청 데이터"),
+            @ApiResponse(responseCode = "401", description = "Token Expired, Token Invalid"),
+            @ApiResponse(responseCode = "404", description = "User not found exception"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error, 서버 에러")
+    })
+    @GetMapping("/following/{userId}")
+    public ResponseEntity<List<UserResponse>> getFollowingList(
+            @PathVariable Long userId,
+            @RequestParam(name = "lastUserId", defaultValue = "0") Long lastUserId
+    ) {
+        var response = getFollowingListService.execute(userId, lastUserId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
