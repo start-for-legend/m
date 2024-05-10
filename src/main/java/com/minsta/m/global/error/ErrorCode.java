@@ -51,6 +51,8 @@ public enum ErrorCode {
 
     //FOLLOW
     NOT_FOLLOW_MYSELF("자기 자신은 영원한 친구입니다", 403),
+    NOT_FOLLOW_DUPLICATE("이미 팔로우 한 유저를 팔로우 할 수 없습니다", 403),
+    NOT_EXIST_FOLLOW("팔로우 하지 않은 유저를 취소 할 수 없습니다", 403),
 
     //STORY
     STORY_NOT_FOUND("스토리가 없습니다", 404),

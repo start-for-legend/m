@@ -35,6 +35,11 @@ public class FollowServiceImpl implements FollowService {
             throw new BasicException(ErrorCode.NOT_FOLLOW_MYSELF);
         }
 
+        if (followRepository.existsById(new FollowEmbedded(
+                userUtil.getUser().getUserId(),
+                userId))
+        ) throw new BasicException(ErrorCode.NOT_FOLLOW_DUPLICATE);
+
         Follow follow = Follow.builder()
                 .followEmbedded(new FollowEmbedded(
                         userUtil.getUser().getUserId(),
