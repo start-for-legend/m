@@ -22,13 +22,13 @@ public class GetFollowerListServiceImpl implements GetFollowerListService {
 
         return em
                 .selectFrom(follow)
-                .where(follow.followEmbedded.followerId.gt(lastUserId))
-                .where(follow.followEmbedded.userId.eq(userId))
-                .limit(15)
+                .where(follow.followEmbedded.followerId.eq(userId))
+                .where(follow.followEmbedded.userId.gt(lastUserId))
                 .orderBy(follow.followEmbedded.followerId.asc())
+                .limit(15)
                 .fetch()
                 .stream()
-                .map(r -> convert(r.getFollowedUser()))
+                .map(r -> convert(r.getUser()))
                 .toList();
     }
 
