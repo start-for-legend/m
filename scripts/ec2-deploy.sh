@@ -10,6 +10,6 @@ if [ ! -f $INIT_FILE ]; then
     touch $INIT_FILE
 fi
 
-sudo docker-compose -f $CONFIG_PATH up -d --no-deps app
+sudo docker-compose -f $CONFIG_PATH up -d --no-deps app nginx certbot
 
 sudo docker image prune -af

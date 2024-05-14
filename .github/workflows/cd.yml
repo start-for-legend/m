@@ -50,7 +50,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
           strip_components: 1
-          source: "deploy/docker-compose.yml,scripts/ec2-deploy.sh"
+          source: "deploy/docker-compose.yml,scripts/ec2-deploy.sh, nginx/nginx.conf"
           target: "/home/ubuntu/"
 
       - name: Deploy application to EC2
