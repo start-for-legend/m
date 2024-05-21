@@ -107,7 +107,7 @@ public class RoomController {
             @ApiResponse(responseCode = "404", description = "Room Not Found"),
             @ApiResponse(responseCode = "500", description = "Server Error"),
     })
-    @PatchMapping("/{roomId}/{lastReadId}")
+    @PatchMapping("/{roomId}/{lastReadId}/re")
     public ResponseEntity<HttpStatus> changeChatRead(@PathVariable UUID roomId, @PathVariable Long lastReadId) {
         messageReadService.execute(roomId, lastReadId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
