@@ -1,6 +1,6 @@
 package com.minsta.m.domain.leels.service.leelscomment;
 
-public interface LeelsCommentLikeCancelService  {
+public interface CancelLeelsCommentLikeService {
 
     void execute(Long leelsId, Long leelsCommentId);
 }

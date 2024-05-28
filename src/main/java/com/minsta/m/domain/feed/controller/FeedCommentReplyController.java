@@ -3,7 +3,6 @@ package com.minsta.m.domain.feed.controller;
 import com.minsta.m.domain.feed.controller.data.request.CreateFeedCommentReplyRequest;
 import com.minsta.m.domain.feed.controller.data.request.EditFeedCommentReplyRequest;
 import com.minsta.m.domain.feed.controller.data.response.FeedReplyCommentResponse;
-import com.minsta.m.domain.feed.entity.feedcommentreply.FeedCommentReply;
 import com.minsta.m.domain.feed.service.feedcommentreply.*;
 import com.minsta.m.global.entity.HeartValidResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +31,7 @@ public class FeedCommentReplyController {
     private final EditFeedCommentReplyService editFeedCommentReplyService;
     private final DeleteFeedCommentReplyService deleteFeedCommentReplyService;
     private final LikeFeedCommentReplyService likeFeedCommentReplyService;
-    private final CancelLikeFeedCommentReplyService cancelLikeFeedCommentReplyService;
+    private final CancelFeedCommentReplyLikeService cancelLikeFeedCommentReplyService;
     private final GetReplyCommentsByIdService getReplyCommentsByIdService;
     private final FeedCommentReplyHeartValidService feedCommentReplyHeartValidService;
 

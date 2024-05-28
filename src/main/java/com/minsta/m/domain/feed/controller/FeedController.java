@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +26,7 @@ public class FeedController {
     private final CreateFeedService createFeedService;
     private final GetFeedDetailService getFeedDetailService;
     private final FeedLikeService feedLikeService;
-    private final FeedLikeCancelService feedLikeCancelServicempl;
+    private final CancelFeedLikeService feedLikeCancelServicempl;
     private final DeleteFeedService deleteFeedService;
     private final FeedHeartValidService feedHeartValidService;
 

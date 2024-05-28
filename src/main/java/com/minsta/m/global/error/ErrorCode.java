@@ -36,6 +36,7 @@ public enum ErrorCode {
     UPDATE_PERMISSION_DENIED("작성자만 수정이 가능", 403),
     REPLY_COMMENT_NOT_FOUND("답글이 존재하지않습니다.", 404),
     CANCEL_PERMISSION_DENIED("좋아요 취소는 본인만 가능합니다", 403),
+    LEELS_NOT_LIKE("좋아요를 누르지 않음", 403),
 
     //Client
     BAD_REQUEST("잘못된 요청",400),

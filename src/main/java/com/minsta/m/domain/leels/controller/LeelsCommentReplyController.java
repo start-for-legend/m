@@ -1,7 +1,6 @@
 package com.minsta.m.domain.leels.controller;
 
 import com.minsta.m.domain.leels.controller.data.request.CreateLeelsCommentRequest;
-import com.minsta.m.domain.leels.controller.data.response.LeelsCommentResponse;
 import com.minsta.m.domain.leels.controller.data.response.LeelsReplyCommentResponse;
 import com.minsta.m.domain.leels.service.leelscommentreply.*;
 import com.minsta.m.global.entity.HeartValidResponse;
@@ -31,7 +30,7 @@ public class LeelsCommentReplyController {
     private final DeleteLeelsCommentReplyService deleteLeelsCommentReplyService;
     private final UpdateLeelsCommentReplyService updateLeelsCommentReplyService;
     private final LeelsCommentReplyLikeService leelsCommentReplyLikeService;
-    private final LeelsCommentReplyLikeCancelService leelsCommentReplyLikeCancelService;
+    private final CancelLeelsCommentReplyLikeService leelsCommentReplyLikeCancelService;
     private final GetReplyCommentListByIdService getReplyCommentListByIdService;
     private final LeelsCommentReplyHeartValidService leelsCommentReplyHeartValidService;
 
