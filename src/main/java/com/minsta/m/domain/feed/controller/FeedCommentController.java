@@ -31,7 +31,7 @@ public class FeedCommentController {
     private final CreateFeedCommentLikeService createFeedCommentLikeService;
     private final DeleteFeedCommentService deleteFeedCommentService;
     private final EditFeedCommentService editFeedCommentService;
-    private final CommentCancelLikeService commentCancelLikeService;
+    private final CancelFeedCommentLikeService commentCancelLikeService;
     private final GetCommentsByIdService getCommentsByIdService;
     private final FeedCommentHeartValidService feedCommentHeartValidService;
 

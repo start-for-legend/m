@@ -30,7 +30,7 @@ public class LeelsCommentController {
     private final LeelsCommentDeleteService leelsCommentDeleteService;
     private final CreateLeelsCommentLikeService createLeelsCommentLikeService;
     private final UpdateLeelsCommentService updateLeelsCommentService;
-    private final LeelsCommentLikeCancelService leelsCommentLikeCancelService;
+    private final CancelLeelsCommentLikeService leelsCommentLikeCancelService;
     private final GetCommentListByLeelsIdService getCommentListByLeelsIdService;
     private final LeelsCommentHeartValidService leelsCommentHeartValidService;
 
