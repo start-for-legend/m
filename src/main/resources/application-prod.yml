@@ -2,7 +2,7 @@ server:
   port: 9071
 
   cookie:
-    domain: localhost
+    domain: ${SERVER_DOMAIN}
 
   shutdown: graceful
 
