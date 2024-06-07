@@ -26,7 +26,7 @@ public class GetReplyCommentListByIdServiceImpl implements GetReplyCommentListBy
 
         List<LeelsCommentReply> leelsCommentReplies = em
                 .selectFrom(leelsCommentReply)
-                .where(leelsCommentReply.leelsComment.leelsCommentId.eq(lastReplyCommentId))
+                .where(leelsCommentReply.leelsComment.leelsCommentId.eq(leelsCommentId))
                 .where(leelsCommentReply.leelsCommentReplyId.gt(lastReplyCommentId))
                 .orderBy(leelsCommentReply.leelsCommentReplyId.asc())
                 .limit(5).stream().toList();
